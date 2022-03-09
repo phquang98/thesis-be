@@ -3,16 +3,20 @@ import { Session, SessionData } from "express-session";
 
 // --- Controller Typings ---
 
-export type xRequestHandler = RequestHandler<xReqParams, xResBody, xReqBody, xReqQuery, xLocals>;
+export type xRequestHandler = RequestHandler<xReqParams, xResBody, xReqBody, xReqQuery, xResLocals>;
 
-export type xReq = Request & {
-  session: Session & Partial<SessionData> & { userId?: string };
-};
+// NOTE: might not need this, e.g req.session.customDataHere ?== res.locals
+// export type xReq = Request & {
+//   session: Session & Partial<SessionData> & { customDataHere?: string };
+//   sessionID: string;
+// };
 
 type xReqParams = Record<string, string> | { bAccountIDHere: string };
 
 type xReqBody = {
-  clientData: Pick<TCustomerAccount, "id">;
+  clientData: {
+    customerID: string;
+  };
 };
 
 type xReqQuery = Record<string, unknown>;
@@ -24,7 +28,7 @@ type xResBody = {
   serverData?: TBankAccount | TCustomerAccount;
 };
 
-type xLocals = Record<string, unknown>;
+type xResLocals = Record<string, unknown>;
 
 // --- Application Typings ---
 

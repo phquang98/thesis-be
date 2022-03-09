@@ -1,7 +1,10 @@
-import { RequestHandler } from "express";
-import { Store } from "express-session";
+import { RequestHandler, Request } from "express";
+import { Store, Session, SessionData } from "express-session";
 
-import { customRequest } from "../util/index.util";
+type customRequest = Request & {
+  session: Session & Partial<SessionData> & { customDataHere?: string; userId?: string };
+  sessionID: string;
+};
 
 // TODO: delete this
 
@@ -59,7 +62,7 @@ export const testLogout: RequestHandler = (req: customRequest, res, _next) => {
   console.log("session ID", req.sessionID);
   console.log("req", req.cookies);
   console.log("cac", req.headers);
-  req.session.destroy((err) => {
+  req.session.destroy((err: Error) => {
     console.log("err", err);
   });
   return res.status(200).json({ msg: "OK" });

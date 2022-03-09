@@ -5,11 +5,11 @@ import express from "express";
 import session from "express-session";
 
 import { xConfig } from "./config/index.config";
-import { sessionRouter } from "./route";
+import { bankAccountRouter } from "./route/bankaccount.route";
 
 // --- Config + Initiate server ---
 dotenv.config();
-const port = process.env.PORT_NUMBER_HERE || 3000; //
+const port = process.env.PORT_NUMBER_HERE || 3000;
 
 const app = express();
 
@@ -33,7 +33,8 @@ app.post("/healthcheck", (req, res, _next) => {
 });
 
 app.use(session(xConfig.session));
-app.use(sessionRouter);
+// app.use(sessionRouter);
+app.use("/bankaccount", bankAccountRouter);
 
 // --- Ini server ---
 xConfig.cxnPostgresDB();
