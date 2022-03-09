@@ -23,17 +23,22 @@
   },
   "homepage": "https://github.com/phquang98/template-be-pure#readme",
   "dependencies": {
+    "connect-pg-simple": "^7.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
+    "express-session": "^1.17.2",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.44"
   },
   "devDependencies": {
+    "@types/connect-pg-simple": "^7.0.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4",
     "@types/morgan": "^1.9.3",
     "@types/node": "^17.0.1",
+    "@types/pg": "^8.6.4",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
     "cors": "^2.8.5",
