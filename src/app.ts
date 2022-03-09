@@ -5,7 +5,7 @@ import express from "express";
 import session from "express-session";
 
 import { xConfig } from "./config/index.config";
-import { bankAccountRouter } from "./route/bankaccount.route";
+import { bankAccountRouter } from "./route";
 
 // --- Config + Initiate server ---
 dotenv.config();

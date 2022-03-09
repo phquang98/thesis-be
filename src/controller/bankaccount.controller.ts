@@ -1,10 +1,10 @@
 import { getRepository } from "typeorm";
 
-import { TBankAccount, xRequestHandler } from "../util/index.util";
-import { BankAccount } from "../entity/bankaccount.entity";
-import { generateBankAccountData } from "../util/helper";
+import { xRequestHandler } from "../util/index.util";
+import { BankAccount, FinTransaction } from "../entity";
+import { generateBankAccountData, generateOneTransactionData } from "../util/helper";
 
-export const createBankAccount: xRequestHandler = async (req, res, _next) => {
+export const createBAccount: xRequestHandler = async (req, res, _next) => {
   const { clientData } = req.body;
 
   try {
@@ -28,7 +28,7 @@ export const createBankAccount: xRequestHandler = async (req, res, _next) => {
   }
 };
 
-export const readBankAccount: xRequestHandler = async (req, res, _next) => {
+export const readBAccount: xRequestHandler = async (req, res, _next) => {
   try {
     if ("bAccountIDHere" in req.params) {
       const { bAccountIDHere } = req.params;
@@ -43,7 +43,7 @@ export const readBankAccount: xRequestHandler = async (req, res, _next) => {
   }
 };
 
-export const deleteBankAccount: xRequestHandler = async (req, res, _next) => {
+export const deleteBAccount: xRequestHandler = async (req, res, _next) => {
   try {
     if ("bAccountIDHere" in req.params) {
       const { bAccountIDHere } = req.params;
@@ -64,7 +64,31 @@ export const deleteBankAccount: xRequestHandler = async (req, res, _next) => {
 };
 
 export const generateOneTransaction: xRequestHandler = async (req, res, _next) => {
-  console.log("generateOneTransaction called");
+  const { clientData } = req.body;
+  console.log("log", { asd: clientData, dsa: req.params });
+
+  try {
+    if (
+      "bAccountIDHere" in req.params &&
+      "senderBAccID" in clientData &&
+      req.params.bAccountIDHere === clientData.senderBAccID
+    ) {
+      const { senderBAccID, receiverBAccID, amount } = clientData;
+
+      const tmpData = generateOneTransactionData(senderBAccID, receiverBAccID, amount);
+      const tmpInstnc = getRepository(FinTransaction).create(tmpData);
+      const queryResult = await getRepository(FinTransaction).save(tmpInstnc);
+      return res
+        .status(201)
+        .json({ msg: "Posted!", affectedResource: "BankAccount, Transaction", serverData: queryResult });
+    }
+    return res.status(400).json({
+      msg: "Failed to post 2: params or body missing or malformed",
+      affectedResource: "BankAccount, Transaction"
+    });
+  } catch (error) {
+    return res.status(400).json({ msg: "Failed to post 3: bad req", affectedResource: "BankAccount, Transaction" });
+  }
 };
 
 export const simulateCashDeposit: xRequestHandler = async (req, res, _next) => {

@@ -1,16 +1,19 @@
-import express from "express";
-import { indexMddlwr, testHomeGet, testPostLogin, authNZ, thuShowData, testLogout } from "../middleware/test";
+export { transactionRouter } from "./transaction.route";
+export { bankAccountRouter } from "./bankaccount.route";
 
-const sessionRouter = express.Router();
+// import express from "express";
+// import { indexMddlwr, testHomeGet, testPostLogin, authNZ, thuShowData, testLogout } from "../middleware/test";
 
-// TODO: create routes for account resource, for session resource AND helper middlewares e.g validate cookie, validate request body
+// const sessionRouter = express.Router();
 
-sessionRouter.get("/", indexMddlwr);
-sessionRouter.post("/login", testPostLogin);
-sessionRouter.get("/home", authNZ, testHomeGet);
-sessionRouter.get("/test", thuShowData);
-sessionRouter.get("/logout", testLogout);
+// // TODO: create routes for account resource, for session resource AND helper middlewares e.g validate cookie, validate request body
 
-// sessionRouter.post("/createSession",validate,sessionReqHdlr);
+// sessionRouter.get("/", indexMddlwr);
+// sessionRouter.post("/login", testPostLogin);
+// sessionRouter.get("/home", authNZ, testHomeGet);
+// sessionRouter.get("/test", thuShowData);
+// sessionRouter.get("/logout", testLogout);
 
-export { sessionRouter };
+// // sessionRouter.post("/createSession",validate,sessionReqHdlr);
+
+// export { sessionRouter };

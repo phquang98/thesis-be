@@ -11,12 +11,14 @@ export type xRequestHandler = RequestHandler<xReqParams, xResBody, xReqBody, xRe
 //   sessionID: string;
 // };
 
-type xReqParams = Record<string, string> | { bAccountIDHere: string };
+type xReqParams = { bAccountIDHere: string } | { bAccIDHere: string };
 
 type xReqBody = {
-  clientData: {
-    customerID: string;
-  };
+  clientData:
+    | {
+        customerID: string;
+      }
+    | Pick<TTransaction, "senderBAccID" | "receiverBAccID" | "amount">;
 };
 
 type xReqQuery = Record<string, unknown>;
@@ -25,7 +27,7 @@ type xReqQuery = Record<string, unknown>;
 type xResBody = {
   msg: string;
   affectedResource: string;
-  serverData?: TBankAccount | TCustomerAccount;
+  serverData?: TBankAccount | TCustomerAccount | TTransaction | TTransaction[];
 };
 
 type xResLocals = Record<string, unknown>;
@@ -54,3 +56,11 @@ type TUser = {
 export type TCustomerAccount = TUser & { isAdmin: false; pwd: string };
 
 export type TAdminAccount = TUser & { isAdmin: true; pwd: string };
+
+export type TTransaction = {
+  id: string;
+  senderBAccID: string;
+  receiverBAccID: string;
+  amount: number;
+  transactedAt: Date;
+};

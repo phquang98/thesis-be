@@ -1,20 +1,20 @@
 import express from "express";
 
 import {
-  readBankAccount,
+  readBAccount,
   generateOneTransaction,
   simulateCashDeposit,
-  createBankAccount,
-  deleteBankAccount
+  createBAccount,
+  deleteBAccount
 } from "../controller/bankaccount.controller";
 
 const bankAccountRouter = express.Router();
 
-bankAccountRouter.post("/", createBankAccount);
-bankAccountRouter.get("/:bAccountIDHere", readBankAccount);
-bankAccountRouter.delete("/:bAccountIDHere", deleteBankAccount);
+bankAccountRouter.post("/", createBAccount);
+bankAccountRouter.get("/:bAccountIDHere", readBAccount);
+bankAccountRouter.delete("/:bAccountIDHere", deleteBAccount);
 
-bankAccountRouter.post("/:bAccountIDHere", generateOneTransaction);
+bankAccountRouter.post("/:bAccountIDHere/transact", generateOneTransaction);
 bankAccountRouter.post("/:bAccountIDHere/deposit", simulateCashDeposit);
 
 export { bankAccountRouter };
