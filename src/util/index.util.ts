@@ -2,8 +2,24 @@ import { Request, RequestHandler } from "express";
 import { Session, SessionData } from "express-session";
 
 // --- Controller Typings ---
+type bAccReqBody = {
+  clientData:
+    | {
+        customerID: string;
+      }
+    | Pick<TTransaction, "senderBAccID" | "receiverBAccID" | "amount">
+    | { depositBAccID: string; depositAmount: number };
+};
 
-export type xRequestHandler = RequestHandler<xReqParams, xResBody, xReqBody, xReqQuery, xResLocals>;
+export type bAccRequestHandler = RequestHandler<
+  { bAccountIDHere: string },
+  xResBody,
+  bAccReqBody,
+  xReqQuery,
+  xResLocals
+>;
+
+export type transactionRequestHandler = RequestHandler<{ bAccountIDHere: string }>;
 
 // NOTE: might not need this, e.g req.session.customDataHere ?== res.locals
 // export type xReq = Request & {
@@ -11,26 +27,16 @@ export type xRequestHandler = RequestHandler<xReqParams, xResBody, xReqBody, xRe
 //   sessionID: string;
 // };
 
-type xReqParams = { bAccountIDHere: string } | { bAccIDHere: string };
-
-type xReqBody = {
-  clientData:
-    | {
-        customerID: string;
-      }
-    | Pick<TTransaction, "senderBAccID" | "receiverBAccID" | "amount">;
-};
-
-type xReqQuery = Record<string, unknown>;
+export type xReqQuery = Record<string, unknown>;
 
 // NOTE: no need typeguard, as here we put stuff inside serverData, not extract from it -> DGAF
-type xResBody = {
+export type xResBody = {
   msg: string;
   affectedResource: string;
   serverData?: TBankAccount | TCustomerAccount | TTransaction | TTransaction[];
 };
 
-type xResLocals = Record<string, unknown>;
+export type xResLocals = Record<string, unknown>;
 
 // --- Application Typings ---
 
@@ -64,3 +70,5 @@ export type TTransaction = {
   amount: number;
   transactedAt: Date;
 };
+
+// xoa

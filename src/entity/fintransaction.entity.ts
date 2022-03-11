@@ -1,13 +1,14 @@
-import { Entity, BaseEntity, Column, PrimaryColumn, CreateDateColumn, ManyToOne } from "typeorm";
+import { Entity, BaseEntity, Column, PrimaryColumn, CreateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 
 import { BankAccount } from "./bankaccount.entity";
 
-@Entity("transaction")
+@Entity("fin_transaction")
 export class FinTransaction extends BaseEntity {
   @PrimaryColumn()
   id: string;
 
-  @ManyToOne(() => BankAccount, (bAccInstnc: BankAccount) => bAccInstnc.id)
+  @ManyToOne<BankAccount>(() => BankAccount, (bAccInstnc) => bAccInstnc.id)
+  @JoinColumn({ name: "senderBAccID" })
   senderBAccID: string;
 
   @Column()

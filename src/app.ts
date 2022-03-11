@@ -5,7 +5,7 @@ import express from "express";
 import session from "express-session";
 
 import { xConfig } from "./config/index.config";
-import { bankAccountRouter } from "./route";
+import { bankAccountRouter, transactionRouter } from "./route";
 
 // --- Config + Initiate server ---
 dotenv.config();
@@ -35,6 +35,7 @@ app.post("/healthcheck", (req, res, _next) => {
 app.use(session(xConfig.session));
 // app.use(sessionRouter);
 app.use("/bankaccount", bankAccountRouter);
+app.use("/transaction", transactionRouter);
 
 // --- Ini server ---
 xConfig.cxnPostgresDB();
