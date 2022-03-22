@@ -3,10 +3,11 @@ import express from "express";
 import {
   readBAccount,
   generateOneTransaction,
-  simulateCashDeposit,
   createBAccount,
-  deleteBAccount
-} from "../controller/bankaccount.controller";
+  deleteBAccount,
+  populateDB,
+  simulateSalaryEarning
+} from "../controller";
 
 const bankAccountRouter = express.Router();
 
@@ -15,6 +16,10 @@ bankAccountRouter.get("/:bAccountIDHere", readBAccount);
 bankAccountRouter.delete("/:bAccountIDHere", deleteBAccount);
 
 bankAccountRouter.post("/:bAccountIDHere/transact", generateOneTransaction);
-bankAccountRouter.post("/:bAccountIDHere/deposit", simulateCashDeposit);
+bankAccountRouter.post("/:bAccountIDHere/salary", simulateSalaryEarning);
+
+// --- Admin workBAcc and spendBAcc ---
+
+bankAccountRouter.post("/admin", populateDB);
 
 export { bankAccountRouter };

@@ -1,14 +1,15 @@
-import { Request, RequestHandler } from "express";
-import { Session, SessionData } from "express-session";
+import { RequestHandler } from "express";
 
 // --- Controller Typings ---
+
 type bAccReqBody = {
   clientData:
     | {
-        customerID: string;
+        customer_id: string;
       }
-    | Pick<TTransaction, "senderBAccID" | "receiverBAccID" | "amount">
-    | { depositBAccID: string; depositAmount: number };
+    | Pick<TTransaction, "sender_baccid" | "receiver_baccid" | "amount">
+    | { depositBAccID: string; depositAmount: number }
+    | { amount: number };
 };
 
 export type bAccRequestHandler = RequestHandler<
@@ -45,8 +46,8 @@ export type TBankAccount = {
   iban: string;
   swift_bic: string;
   balance: number;
-  customerID: string;
-  createdAt: Date;
+  customer_id: string;
+  created_at: Date;
 };
 
 type TUser = {
@@ -59,16 +60,14 @@ type TUser = {
   pnum: string;
 };
 
-export type TCustomerAccount = TUser & { isAdmin: false; pwd: string };
+export type TCustomerAccount = TUser & { is_admin: false; pwd: string };
 
-export type TAdminAccount = TUser & { isAdmin: true; pwd: string };
+export type TAdminAccount = TUser & { is_admin: true; pwd: string };
 
 export type TTransaction = {
   id: string;
-  senderBAccID: string;
-  receiverBAccID: string;
+  sender_baccid: string;
+  receiver_baccid: string;
   amount: number;
-  transactedAt: Date;
+  transacted_at: Date;
 };
-
-// xoa

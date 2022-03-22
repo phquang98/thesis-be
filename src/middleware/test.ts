@@ -1,3 +1,4 @@
+// for auth later, del this when done
 import { RequestHandler, Request } from "express";
 import { Store, Session, SessionData } from "express-session";
 

@@ -1,6 +1,6 @@
 import express from "express";
 
-import { readCltTransactionByIndividual } from "../controller/transaction.controller";
+import { readCltTransactionByIndividual } from "../controller";
 
 const transactionRouter = express.Router();
 

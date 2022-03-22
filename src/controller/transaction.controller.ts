@@ -1,7 +1,7 @@
 import { getRepository } from "typeorm";
 
-import { transactionRequestHandler } from "../util/index.util";
 import { FinTransaction } from "../entity";
+import { transactionRequestHandler } from "../util";
 
 export const readCltTransactionByIndividual: transactionRequestHandler = async (req, res, _next) => {
   const { bAccountIDHere } = req.params;

@@ -15,9 +15,9 @@ export class BankAccount extends BaseEntity {
   balance: number;
 
   // TODO: change this to 1TM-MT1
-  @Column()
-  customerID: string;
+  @Column({ name: "customer_id" })
+  customer_id: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @CreateDateColumn({ name: "created_at" })
+  created_at: Date;
 }

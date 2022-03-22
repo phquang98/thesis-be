@@ -1,7 +1,7 @@
 import { BaseEntity, EntityTarget, FindConditions, getRepository } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 
-import { TBankAccount, TTransaction } from "./index.util";
+import { TBankAccount, TTransaction } from "./types.util";
 
 export const xFindOneResource = async <E extends BaseEntity>(
   entityClassHere: EntityTarget<E>,
@@ -13,13 +13,13 @@ export const xFindOneResource = async <E extends BaseEntity>(
 
 // --- BankAccount Helpers ---
 
-export const generateBankAccountData = (customerIDHere: string): Omit<TBankAccount, "createdAt"> => {
-  const tmp: Omit<TBankAccount, "createdAt"> = {
+export const generateBankAccountData = (customerIDHere: string): Omit<TBankAccount, "created_at"> => {
+  const tmp: Omit<TBankAccount, "created_at"> = {
     id: uuidv4(),
     iban: generateRandomIBAN(),
     swift_bic: generateSWIFTCode(),
     balance: 0,
-    customerID: customerIDHere
+    customer_id: customerIDHere
   };
 
   return tmp;
@@ -59,15 +59,16 @@ const generateSWIFTCode = (): string => {
 };
 
 // --- Transaction Helpers ---
+
 export const generateOneTransactionData = (
   senderIDHere: string,
   receiverIDHere: string,
   amount: number
-): Omit<TTransaction, "transactedAt"> => {
-  const tmp: Omit<TTransaction, "transactedAt"> = {
+): Omit<TTransaction, "transacted_at"> => {
+  const tmp: Omit<TTransaction, "transacted_at"> = {
     id: uuidv4(),
-    senderBAccID: senderIDHere,
-    receiverBAccID: receiverIDHere,
+    sender_baccid: senderIDHere,
+    receiver_baccid: receiverIDHere,
     amount
   };
   return tmp;
