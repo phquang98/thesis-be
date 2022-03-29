@@ -1,9 +1,9 @@
 import express from "express";
 
-import { readCltTransactionByIndividual } from "../controller";
+import { readBalanceSheetByIndividual } from "../controller";
 
 const transactionRouter = express.Router();
 
-transactionRouter.get("/individual/:bAccountIDHere", readCltTransactionByIndividual);
+transactionRouter.get("/individual/:bAccountIDHere", readBalanceSheetByIndividual);
 
 export { transactionRouter };

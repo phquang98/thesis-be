@@ -1,4 +1,4 @@
-import { getRepository, Transaction } from "typeorm";
+import { getRepository } from "typeorm";
 
 import { BankAccount, FinTransaction } from "../entity";
 import { TBankAccount, bAccRequestHandler, generateBankAccountData, generateOneTransactionData } from "../util";

@@ -7,3 +7,4 @@
   - manually create `session` table in the database
 - `x` denotes custom stuffs written in this project, not from any 3rd libs
 - [CHANGE ALL DATABASE NAME BACK TO LOWERCASE](https://stackoverflow.com/a/55297938/8834000)
+- WHERE OR -> pass an array or perform a QueryBuilder

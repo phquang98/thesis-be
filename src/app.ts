@@ -4,8 +4,8 @@ import cors from "cors";
 import express from "express";
 import session from "express-session";
 
-import { xConfig } from "./config/index.config";
-import { bankAccountRouter, transactionRouter } from "./route";
+import { xConfig } from "./config";
+import { bankAccountRouter, transactionRouter, userInfoRouter } from "./route";
 
 // --- Config + Initiate server ---
 dotenv.config();
@@ -36,6 +36,7 @@ app.use(session(xConfig.session));
 // app.use(sessionRouter);
 app.use("/bankaccount", bankAccountRouter);
 app.use("/transaction", transactionRouter);
+app.use("/user/info", userInfoRouter);
 
 // --- Ini server ---
 xConfig.cxnPostgresDB();

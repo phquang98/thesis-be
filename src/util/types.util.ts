@@ -7,10 +7,16 @@ type bAccReqBody = {
     | {
         customer_id: string;
       }
-    | Pick<TTransaction, "sender_baccid" | "receiver_baccid" | "amount">
+    | Pick<TFinTransaction, "sender_baccid" | "receiver_baccid" | "amount">
     | { depositBAccID: string; depositAmount: number }
     | { amount: number };
 };
+
+type uInfoReqBody = {
+  clientData: TUInfo;
+};
+
+export type uInfoRequestHandler = RequestHandler<{ userIDHere: string }, xResBody, uInfoReqBody, xReqQuery, xResLocals>;
 
 export type bAccRequestHandler = RequestHandler<
   { bAccountIDHere: string },
@@ -34,7 +40,7 @@ export type xReqQuery = Record<string, unknown>;
 export type xResBody = {
   msg: string;
   affectedResource: string;
-  serverData?: TBankAccount | TCustomerAccount | TTransaction | TTransaction[];
+  serverData?: TBankAccount | TCustomerAccount | TFinTransaction | TFinTransaction[] | TUInfo;
 };
 
 export type xResLocals = Record<string, unknown>;
@@ -64,10 +70,20 @@ export type TCustomerAccount = TUser & { is_admin: false; pwd: string };
 
 export type TAdminAccount = TUser & { is_admin: true; pwd: string };
 
-export type TTransaction = {
+export type TFinTransaction = {
   id: string;
   sender_baccid: string;
   receiver_baccid: string;
   amount: number;
   transacted_at: Date;
+};
+
+export type TUInfo = {
+  id: string;
+  name: string;
+  email: string;
+  age?: number;
+  address?: string;
+  gender?: string;
+  pnum?: string;
 };

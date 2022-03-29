@@ -1,7 +1,7 @@
 import { BaseEntity, EntityTarget, FindConditions, getRepository } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 
-import { TBankAccount, TTransaction } from "./types.util";
+import { TBankAccount, TFinTransaction, TUInfo } from "./types.util";
 
 export const xFindOneResource = async <E extends BaseEntity>(
   entityClassHere: EntityTarget<E>,
@@ -64,12 +64,35 @@ export const generateOneTransactionData = (
   senderIDHere: string,
   receiverIDHere: string,
   amount: number
-): Omit<TTransaction, "transacted_at"> => {
-  const tmp: Omit<TTransaction, "transacted_at"> = {
+): Omit<TFinTransaction, "transacted_at"> => {
+  const tmp: Omit<TFinTransaction, "transacted_at"> = {
     id: uuidv4(),
     sender_baccid: senderIDHere,
     receiver_baccid: receiverIDHere,
     amount
   };
+  return tmp;
+};
+
+// --- Resource Generation ---
+
+type TExpectedData = Omit<TUInfo, "id"> | Pick<TFinTransaction, "sender_baccid" | "receiver_baccid" | "amount">;
+
+type TSingleResource = TUInfo | Record<string, never>;
+
+export const generateOneResource = (dataHere: TExpectedData): TSingleResource => {
+  let tmp: TSingleResource = {};
+
+  if ("email" in dataHere) {
+    tmp = {
+      id: uuidv4(),
+      name: dataHere.name,
+      email: dataHere.email,
+      age: dataHere.age ?? undefined,
+      address: dataHere.gender ?? undefined,
+      pnum: dataHere.pnum ?? undefined
+    };
+    return tmp;
+  }
   return tmp;
 };
