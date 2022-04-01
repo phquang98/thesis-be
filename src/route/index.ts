@@ -1,6 +1,7 @@
 export { transactionRouter } from "./transaction.route";
 export { bankAccountRouter } from "./bank_account.route";
 export { userInfoRouter } from "./user_info.route";
+export { userAccountRouter } from "./user_account.route";
 
 // import express from "express";
 // import { indexMddlwr, testHomeGet, testPostLogin, authNZ, thuShowData, testLogout } from "../middleware/test";

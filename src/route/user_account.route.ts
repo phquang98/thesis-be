@@ -1,8 +1,10 @@
 import express from "express";
 
+import { createUAcc } from "../controller";
+
 const userAccountRouter = express.Router();
 
-userAccountRouter.post("/register");
+userAccountRouter.post("/register", createUAcc);
 userAccountRouter.post("/login");
 userAccountRouter.post("/logout");
 

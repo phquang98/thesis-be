@@ -1,6 +1,7 @@
 import { getRepository } from "typeorm";
+
 import { UserInfo } from "../entity";
-import { generateOneResource, uInfoRequestHandler } from "../util";
+import { generateUserInfo, uInfoRequestHandler } from "../util";
 
 export const createUInfo: uInfoRequestHandler = async (req, res, _next) => {
   const { clientData } = req.body;
@@ -12,7 +13,7 @@ export const createUInfo: uInfoRequestHandler = async (req, res, _next) => {
       if (suspect) {
         return res.status(400).json({ msg: "Create failed 1: email already used", affectedResource: "user_info" });
       }
-      const tmpData = generateOneResource(clientData);
+      const tmpData = generateUserInfo(clientData);
       const tmpInstnc = getRepository(UserInfo).create(tmpData);
       const queryResult = await getRepository(UserInfo).save(tmpInstnc);
       return res.status(201).json({ msg: "Created", affectedResource: "user_info", serverData: queryResult });

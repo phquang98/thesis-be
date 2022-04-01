@@ -2,6 +2,13 @@ import { RequestHandler } from "express";
 
 // --- Controller Typings ---
 
+// NOTE: check README
+const reqParamsExpectedClt = ["userIDHere", "bAccountIDHere", "finTransactIDHere", "sessionIDHere"] as const;
+export type TReqParams = typeof reqParamsExpectedClt[number];
+export const isReqParamsAsExpected = (reqParamKey: string): reqParamKey is TReqParams => {
+  return (reqParamsExpectedClt as readonly string[]).indexOf(reqParamKey) >= 0;
+};
+
 type bAccReqBody = {
   clientData:
     | {
@@ -16,7 +23,13 @@ type uInfoReqBody = {
   clientData: TUInfo;
 };
 
+type uAccReqBody = {
+  clientData: Pick<TUInfo, "name" | "email"> & Pick<TUserAcc, "account_name" | "account_pwd">;
+};
+
 export type uInfoRequestHandler = RequestHandler<{ userIDHere: string }, xResBody, uInfoReqBody, xReqQuery, xResLocals>;
+
+export type uAccRequestHandler = RequestHandler<{ userIDHere: string }, xResBody, uAccReqBody, xReqQuery, xResLocals>;
 
 export type bAccRequestHandler = RequestHandler<
   { bAccountIDHere: string },
@@ -46,6 +59,13 @@ export type xResBody = {
 export type xResLocals = Record<string, unknown>;
 
 // --- Application Typings ---
+
+export enum Resource {
+  B_ACC = "Bank Account",
+  U_ACC = "User Account",
+  U_INFO = "User Info",
+  FTRS = "Financial Transaction"
+}
 
 export type TBankAccount = {
   id: string;
@@ -87,3 +107,25 @@ export type TUInfo = {
   gender?: string;
   pnum?: string;
 };
+
+export type TUserAcc = {
+  account_name: string;
+  account_pwd: string;
+  is_admin: boolean;
+  user_id: string;
+};
+
+// --- Custom defined type guards ---
+
+/**
+ * Predicate fnc return boolean based on if keyHere belongs in objHere and keyHere is a property of type T. Use when have an obj and unsure its types, but take a guess it is from type T
+ *
+ * @param keyHere
+ * @param objHere
+ * @returns
+ * <https://stackoverflow.com/a/58962072/8834000>
+ */
+
+export function isObjKey<T>(keyHere: PropertyKey, objHere: T): keyHere is keyof T {
+  return keyHere in objHere;
+}

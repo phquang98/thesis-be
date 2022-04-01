@@ -1,7 +1,7 @@
 import { getRepository } from "typeorm";
 
 import { BankAccount, FinTransaction } from "../entity";
-import { TBankAccount, bAccRequestHandler, generateBankAccountData, generateOneTransactionData } from "../util";
+import { TBankAccount, bAccRequestHandler, generateBankAccountData, generateFinTransaction } from "../util";
 
 export const createBAccount: bAccRequestHandler = async (req, res, _next) => {
   const { clientData } = req.body;
@@ -74,7 +74,7 @@ export const generateOneTransaction: bAccRequestHandler = async (req, res, _next
       const senderDeduct = await getRepository(BankAccount).findOne({ id: sender_baccid });
       const receiverAdd = await getRepository(BankAccount).findOne({ id: receiver_baccid });
       if (senderDeduct && receiverAdd && senderDeduct.balance >= amount) {
-        const tmpData = generateOneTransactionData(sender_baccid, receiver_baccid, amount);
+        const tmpData = generateFinTransaction(sender_baccid, receiver_baccid, amount);
         const tmpInstnc = getRepository(FinTransaction).create(tmpData);
 
         const queryResult = await getRepository(BankAccount).save({
@@ -113,7 +113,7 @@ export const simulateSalaryEarning: bAccRequestHandler = async (req, res, _next)
       const suspect = await getRepository(BankAccount).findOne({ id: bAccountIDHere });
 
       if (suspect) {
-        const tmpTransactData = generateOneTransactionData("1", bAccountIDHere, amount);
+        const tmpTransactData = generateFinTransaction("1", bAccountIDHere, amount);
         const tmpTransact = getRepository(FinTransaction).create(tmpTransactData);
         await getRepository(FinTransaction).save(tmpTransact);
         const queryRes = await getRepository(BankAccount).save({ ...suspect, balance: suspect.balance + amount });

@@ -5,7 +5,7 @@ import { createConnection, ConnectionOptions } from "typeorm";
 import { Pool, PoolConfig } from "pg";
 import { CorsOptions } from "cors";
 
-import { BankAccount, FinTransaction, UserInfo } from "../entity";
+import { BankAccount, FinTransaction, UserAccount, UserInfo } from "../entity";
 
 dotenv.config();
 
@@ -36,7 +36,7 @@ const TYPEORM_POSTGRES_CONF: ConnectionOptions = {
   username: process.env.DB_USERNAME ?? "postgres",
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [BankAccount, FinTransaction, UserInfo],
+  entities: [BankAccount, FinTransaction, UserInfo, UserAccount],
   synchronize: true,
   logging: true
 };
