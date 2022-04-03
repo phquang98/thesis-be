@@ -20,15 +20,14 @@ const SERVER_CONF = {
 
 // --- CORS Config ---
 
-/** Explain: handles cors settings of the app, remember FE and BE will be same hostname (e.g same nginx server)
- *
- */
+// handles cors settings of the app, remember FE and BE will be same hostname (e.g same nginx server)
 const customCORSOpts: CorsOptions = {
-  origin: "http://localhost:3000", // must have scheme (e.g HTTP) + hostname (e.g localhost) + port (e.g 3000)
+  origin: "http://localhost:4000", // must have scheme (e.g HTTP) + hostname (e.g localhost) + port (e.g 3000)
   credentials: true
 };
 
 // --- TypeORM CXN Config ---
+
 const TYPEORM_POSTGRES_CONF: ConnectionOptions = {
   type: "postgres",
   host: process.env.DB_HOST || "localhost",
@@ -74,12 +73,12 @@ const sessionOpts: SessionOptions = {
   name: "test_cookie", // the key name of first prop of the cookie when client receives
   store: postgresStore,
   cookie: {
-    maxAge: 30000, //  1000 * 60 * 60 = 1h
-    httpOnly: false, // careful with this ???
+    maxAge: 3600000, //  1000 * 60 * 60 = 1h === 3600000 (1000 for testing)
+    httpOnly: true, // careful with this ???
     secure: false, // careful with this ??? set nodejs trust proxy if use proxy like nginx
-    sameSite: "lax" // lax strict none clgt ???
-    // path: ???
-    // domain: ???
+    sameSite: "lax", // lax strict none clgt ???
+    path: "/"
+    // domain: "http://localhost:4000" // this shit cause error ???
     // signed: ???
   },
   saveUninitialized: false, // don't save empty session right from start

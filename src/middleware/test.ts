@@ -68,13 +68,3 @@ export const testLogout: RequestHandler = (req: customRequest, res, _next) => {
   });
   return res.status(200).json({ msg: "OK" });
 };
-
-export const thuShowData: RequestHandler = (req: customRequest, res, _next) => {
-  console.log("test ne", { data1: req.cookies, data2: req.session, data3: req.sessionID, data4: res.cookie });
-  return res.json(`
-    1. ${req.cookies}
-    2. ${req.session}
-    3. ${req.sessionID}
-    4. ${res.cookie}
-  `);
-};
