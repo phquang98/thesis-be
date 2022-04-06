@@ -73,7 +73,7 @@ const sessionOpts: SessionOptions = {
   name: "test_cookie", // the key name of first prop of the cookie when client receives
   store: postgresStore,
   cookie: {
-    maxAge: 3600000, //  1000 * 60 * 60 = 1h === 3600000 (1000 for testing)
+    maxAge: 600000, //  1000 * 60 * 60 = 1h === 3600000 (1000 for testing) (600000 = 10min)
     httpOnly: true, // careful with this ???
     secure: false, // careful with this ??? set nodejs trust proxy if use proxy like nginx
     sameSite: "lax", // lax strict none clgt ???

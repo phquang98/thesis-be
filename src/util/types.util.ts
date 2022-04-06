@@ -3,7 +3,9 @@ import { RequestHandler } from "express";
 // --- Controller Typings ---
 
 // NOTE: check README
-const reqParamsExpectedClt = ["userIDHere", "bAccountIDHere", "finTransactIDHere", "sessionIDHere"] as const;
+// TODO: del this
+// const reqParamsExpectedClt = ["userIdHere", "bAccIdHere", "finTransIdHere"] as const;
+const reqParamsExpectedClt = ["userIdHere", "bAccountIDHere", "finTransactIDHere"] as const;
 export type TReqParams = typeof reqParamsExpectedClt[number];
 export const isReqParamsAsExpected = (reqParamKey: string): reqParamKey is TReqParams => {
   return (reqParamsExpectedClt as readonly string[]).indexOf(reqParamKey) >= 0;
@@ -29,7 +31,7 @@ type uAccReqBody = {
 
 export type uInfoRequestHandler = RequestHandler<{ userIDHere: string }, xResBody, uInfoReqBody, xReqQuery, xResLocals>;
 
-export type uAccRequestHandler = RequestHandler<{ userIDHere: string }, xResBody, uAccReqBody, xReqQuery, xResLocals>;
+export type uAccRequestHandler = RequestHandler<Record<string, unknown>, xResBody, uAccReqBody, xReqQuery, xResLocals>;
 
 export type bAccRequestHandler = RequestHandler<
   { bAccountIDHere: string },

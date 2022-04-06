@@ -15,3 +15,8 @@
   - <https://stackoverflow.com/a/55850291/8834000>
   - and wtf is `formats[number]` ? what is `[number]` ?
 - Cookie flag ~ Key-Pair Cookie ~ Key-Value Cookie in HTTP Header
+- now using older version of TypeORM, they update to DataSource and deprecated createCXN, care when use
+- thinking about using resource params as sid or user_id, choose user_id for simplicity, but read somewhere this is bad design
+- by default, every request to the server will have a sessionId (cause of `app.use(session())`, notices global scope/no specific routes); but only sessionId that saved inside the `session` table is what matters
+  - not sure if correct
+- [why not put session id in query params (and maybe also path variables ?)](https://stackoverflow.com/a/35090676/8834000)

@@ -9,7 +9,7 @@ import { bankAccountRouter, transactionRouter, userAccountRouter, userInfoRouter
 
 // --- Config + Initiate server ---
 dotenv.config();
-const port = process.env.PORT_NUMBER_HERE || 3000;
+const port = process.env.PORT_NUMBER_HERE || 4000;
 
 const app = express();
 
@@ -18,28 +18,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms"));
 app.use(cors(xConfig.corsOpts));
-
-// --- Run server ---
-app.get("/healthcheck", (req, res, _next) => {
-  return res.status(200).json({ msg: "Hello there!" });
-});
-
-app.post("/healthcheck", (req, res, _next) => {
-  if (req.body.myNameIs) {
-    return res.status(200).json({ msg: "Request received with desired key", reqBody: req.body });
-  } else {
-    return res.status(400).json({ msg: "Bad request! Maybe req.body is missing key prop!" });
-  }
-});
-
 app.use(session(xConfig.session));
-// app.use(sessionRouter);
+
 app.use("/", userAccountRouter);
 app.use("/bankaccount", bankAccountRouter);
 app.use("/transaction", transactionRouter);
 app.use("/user/info", userInfoRouter);
 
-// --- Ini server ---
+// --- Make CXN to DB ---
 xConfig.cxnPostgresDB();
 
 // --- Start server ---

@@ -1,41 +1,64 @@
-import { RequestHandler, Response, NextFunction } from "express";
+import { getRepository } from "typeorm";
 
-export const createSession: RequestHandler = (req, res, next) => {
-  console.log("CREATE-SESS LOG:", req.session, req.sessionID, req.session.userId);
-  if (req.session.userId) {
-    return res.status(400).json({ msg: `Session existed already! ${req.sessionID}` });
+import { UserAccount } from "../entity";
+import { TMddlwr } from "../types/middleware.type";
+
+/** Create a session record based on user credentials
+ *
+ * Put user_id inside session object
+ */
+export const createSession: TMddlwr = async (req, res, _next) => {
+  if (req.session.user_id) {
+    return res
+      .status(400)
+      .json({ msg: `Session existed already! ${req.sessionID}`, affectedResource: "Session Middleware" });
   }
-  req.session.userId = "met moi vcl";
-  return res.status(200).json({ msg: `Session created ${req.session.userId} ${req.sessionID}` });
+
+  const { account_name } = req.body.clientData;
+  const uAccTmp = await getRepository(UserAccount).findOne({ account_name });
+
+  req.session.user_id = uAccTmp?.user_id; // TODO: put this in locals in previous mddlwr
+  return res
+    .status(200)
+    .json({ msg: `Session created ${req.session.user_id} ${req.sessionID}`, affectedResource: "Middleware Session" });
 };
 
-// NOTE: volatile, some fucking reason express-session create sessionID for every HTTP request -> called this ONE TIME PER USER ONLY
-export const deleteSession: RequestHandler = (req, res, next) => {
-  console.log("DEL-SESS LOG:", req.session, req.sessionID, req.session.userId);
+/** Delete a session record based on cookie (must be logged in)
+ *
+ * Use when User clicks Logout btn
+ * Should called this 1 time per logged user only
+ */
+export const deleteSession: TMddlwr = (req, res, _next) => {
+  console.log("DEL-SESS LOG:", req.session, req.sessionID, req.session.user_id);
 
   if (req.sessionID) {
     req.session.destroy((err) => {
       if (err) {
-        return res.status(400).json({ msg: `Failed to destroy session ${req.sessionID ?? "cc"}` });
+        return res
+          .status(400)
+          .json({ msg: `Failed to destroy session ${req.sessionID}`, affectedResource: "Session Middleware" });
       }
     });
-    return res.status(200).json({ msg: `Session Deleted ${req.sessionID}` });
+    return res.status(200).json({ msg: `Session ${req.sessionID} deleted!`, affectedResource: "Session Middleware" });
   }
-  return res.status(400).json({ msg: `Missing sessionID! ${req.sessionID ?? "cc"}` });
+  return res.status(400).json({ msg: `Missing sessionID!`, affectedResource: "Session Middleware" });
 };
 
-// call when user stays in website > 5 mins -> ask them -> if they ok -> FE called BE this fnc
-// refresh the expires column in session table, sid unchanged (if want to change use regen)
-export const reloadSession: RequestHandler = (req, res, next) => {
-  console.log("RELOAD-SESS LOG:", req.session, req.sessionID, req.session.userId);
+/** Updates the `expires` column using cookie.maxAge
+ *
+ * Use this when User in FE with near-expire session -> FE ask if User want to reload -> if yes FE call this
+ * reload() maintain sid, if want to change, use session.regenerate()
+ */
+export const reloadSession: TMddlwr = (req, res, _next) => {
+  // console.log("RELOAD-SESS LOG:", req.session, req.sessionID, req.session.user_id);
 
   if (req.sessionID) {
     req.session.reload((err) => {
       if (err) {
-        return res.status(400).json({ msg: "Failed to reload session" });
+        return res.status(400).json({ msg: "Failed to reload session", affectedResource: "Session Middleware" });
       }
     });
-    return res.status(200).json({ msg: "Session reloaded, extended ttl!" });
+    return res.status(200).json({ msg: "Session reloaded, extended ttl!", affectedResource: "Session Middleware" });
   }
-  return res.status(400).json({ msg: "Missing session!" });
+  return res.status(400).json({ msg: "Missing cookie!", affectedResource: "Session Middleware" });
 };

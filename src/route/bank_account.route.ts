@@ -8,7 +8,7 @@ import {
   populateDB,
   simulateSalaryEarning
 } from "../controller";
-import { checkReqParams, bAccReqBodyMddlwr } from "../middleware/custom_validation.middleware";
+import { checkReqParamsMddlwr, checkReqBodyMddlwr } from "../middleware";
 
 const bankAccountRouter = express.Router();
 
@@ -18,7 +18,7 @@ bankAccountRouter.delete("/:bAccountIDHere", deleteBAccount);
 
 bankAccountRouter.post(
   "/:bAccountIDHere/transact",
-  [checkReqParams, bAccReqBodyMddlwr(["sender_baccid", "receiver_baccid", "amount"])],
+  [checkReqParamsMddlwr, checkReqBodyMddlwr(["sender_baccid", "receiver_baccid", "amount"])],
   generateOneTransaction
 );
 bankAccountRouter.post("/:bAccountIDHere/salary", simulateSalaryEarning);
