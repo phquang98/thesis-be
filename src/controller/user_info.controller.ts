@@ -25,11 +25,11 @@ export const createUInfo: uInfoRequestHandler = async (req, res, _next) => {
 };
 
 export const readUInfo: uInfoRequestHandler = async (req, res, _next) => {
-  const { userIDHere } = req.params;
+  const { userIdHere } = req.params;
 
   try {
-    if (userIDHere && userIDHere !== "") {
-      const suspect = await getRepository(UserInfo).findOne({ id: userIDHere });
+    if (userIdHere && userIdHere !== "") {
+      const suspect = await getRepository(UserInfo).findOne({ id: userIdHere });
       return suspect
         ? res.status(200).json({ msg: "Got one", affectedResource: "user_info", serverData: suspect })
         : res.status(404).json({ msg: "Get failed 1: not found", affectedResource: "user_info" });
@@ -42,11 +42,11 @@ export const readUInfo: uInfoRequestHandler = async (req, res, _next) => {
 
 export const updateUInfo: uInfoRequestHandler = async (req, res, _next) => {
   const { clientData } = req.body;
-  const { userIDHere } = req.params;
+  const { userIdHere } = req.params;
 
   try {
-    if (userIDHere && clientData && "email" in clientData) {
-      const suspect = await getRepository(UserInfo).findOne({ id: userIDHere });
+    if (userIdHere && clientData && "email" in clientData) {
+      const suspect = await getRepository(UserInfo).findOne({ id: userIdHere });
       if (suspect && suspect.id === clientData.id) {
         const queryRes = await getRepository(UserInfo).save(clientData);
         return res.status(200).json({ msg: "Put one", affectedResource: "user_info", serverData: queryRes });

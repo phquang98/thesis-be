@@ -1,16 +1,22 @@
 import { RequestHandler } from "express";
 
-import { isReqParamsAsExpected } from "../util";
+// Helpers func: check internally if route have the path var named like literals below
+const reqParamsExpectedClt = ["userIdHere", "bAccIdHere", "finTransIdHere"] as const;
+export type TExpectedReqParams = typeof reqParamsExpectedClt[number];
+export const isExpectedReqParams = (reqParamKey: string): reqParamKey is TExpectedReqParams => {
+  return (reqParamsExpectedClt as readonly string[]).indexOf(reqParamKey) >= 0;
+};
 
 // Check if params has necessary path variables, READ BELOW
 export const checkReqParamsMddlwr: RequestHandler = (req, res, next) => {
   for (const pathVar in req.params) {
-    if (isReqParamsAsExpected(pathVar)) {
+    if (isExpectedReqParams(pathVar)) {
       return next();
     }
   }
-  console.log("lay nguoi", req.params);
-  return res.status(400).json({ msg: "Request parameters not recognized or missing!", affectedResource: "Middleware" });
+  return res
+    .status(400)
+    .json({ msg: "Request parameters not recognized or missing!", affectedResource: "Params Middleware" });
 };
 
 // Check if body has all necessary props
@@ -20,7 +26,7 @@ export const checkReqBodyMddlwr = (suspectKeyClt: string[]): RequestHandler => {
       return next();
     }
 
-    return res.status(400).json({ msg: "Request body missing or invalid!", affectedResource: "Middleware" });
+    return res.status(400).json({ msg: "Request body missing or invalid!", affectedResource: "Body Middleware" });
   };
   return checkReqBody;
 };

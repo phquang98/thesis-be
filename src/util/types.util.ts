@@ -3,13 +3,6 @@ import { RequestHandler } from "express";
 // --- Controller Typings ---
 
 // NOTE: check README
-// TODO: del this
-// const reqParamsExpectedClt = ["userIdHere", "bAccIdHere", "finTransIdHere"] as const;
-const reqParamsExpectedClt = ["userIdHere", "bAccountIDHere", "finTransactIDHere"] as const;
-export type TReqParams = typeof reqParamsExpectedClt[number];
-export const isReqParamsAsExpected = (reqParamKey: string): reqParamKey is TReqParams => {
-  return (reqParamsExpectedClt as readonly string[]).indexOf(reqParamKey) >= 0;
-};
 
 type bAccReqBody = {
   clientData:
@@ -25,23 +18,11 @@ type uInfoReqBody = {
   clientData: TUInfo;
 };
 
-type uAccReqBody = {
-  clientData: Pick<TUInfo, "name" | "email"> & Pick<TUserAcc, "account_name" | "account_pwd">;
-};
+export type uInfoRequestHandler = RequestHandler<{ userIdHere: string }, xResBody, uInfoReqBody, xReqQuery, xResLocals>;
 
-export type uInfoRequestHandler = RequestHandler<{ userIDHere: string }, xResBody, uInfoReqBody, xReqQuery, xResLocals>;
+export type bAccRequestHandler = RequestHandler<{ bAccIdHere: string }, xResBody, bAccReqBody, xReqQuery, xResLocals>;
 
-export type uAccRequestHandler = RequestHandler<Record<string, unknown>, xResBody, uAccReqBody, xReqQuery, xResLocals>;
-
-export type bAccRequestHandler = RequestHandler<
-  { bAccountIDHere: string },
-  xResBody,
-  bAccReqBody,
-  xReqQuery,
-  xResLocals
->;
-
-export type transactionRequestHandler = RequestHandler<{ bAccountIDHere: string }>;
+export type transactionRequestHandler = RequestHandler<{ bAccIdHere: string }>;
 
 // NOTE: might not need this, e.g req.session.customDataHere ?== res.locals
 // export type xReq = Request & {
@@ -61,13 +42,6 @@ export type xResBody = {
 export type xResLocals = Record<string, unknown>;
 
 // --- Application Typings ---
-
-export enum Resource {
-  B_ACC = "Bank Account",
-  U_ACC = "User Account",
-  U_INFO = "User Info",
-  FTRS = "Financial Transaction"
-}
 
 export type TBankAccount = {
   id: string;

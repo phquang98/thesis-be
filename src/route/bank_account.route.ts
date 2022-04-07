@@ -13,15 +13,15 @@ import { checkReqParamsMddlwr, checkReqBodyMddlwr } from "../middleware";
 const bankAccountRouter = express.Router();
 
 bankAccountRouter.post("/", createBAccount);
-bankAccountRouter.get("/:bAccountIDHere", readBAccount);
-bankAccountRouter.delete("/:bAccountIDHere", deleteBAccount);
+bankAccountRouter.get("/:bAccIdHere", readBAccount);
+bankAccountRouter.delete("/:bAccIdHere", deleteBAccount);
 
 bankAccountRouter.post(
-  "/:bAccountIDHere/transact",
+  "/:bAccIdHere/transact",
   [checkReqParamsMddlwr, checkReqBodyMddlwr(["sender_baccid", "receiver_baccid", "amount"])],
   generateOneTransaction
 );
-bankAccountRouter.post("/:bAccountIDHere/salary", simulateSalaryEarning);
+bankAccountRouter.post("/:bAccIdHere/salary", simulateSalaryEarning);
 
 // --- Admin workBAcc and spendBAcc ---
 

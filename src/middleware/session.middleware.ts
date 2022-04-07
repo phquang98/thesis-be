@@ -31,7 +31,7 @@ export const createSession: TMddlwr = async (req, res, _next) => {
 export const deleteSession: TMddlwr = (req, res, _next) => {
   console.log("DEL-SESS LOG:", req.session, req.sessionID, req.session.user_id);
 
-  if (req.sessionID) {
+  if (req.session.user_id) {
     req.session.destroy((err) => {
       if (err) {
         return res
@@ -41,7 +41,7 @@ export const deleteSession: TMddlwr = (req, res, _next) => {
     });
     return res.status(200).json({ msg: `Session ${req.sessionID} deleted!`, affectedResource: "Session Middleware" });
   }
-  return res.status(400).json({ msg: `Missing sessionID!`, affectedResource: "Session Middleware" });
+  return res.status(400).json({ msg: `Session not recognized!`, affectedResource: "Session Middleware" });
 };
 
 /** Updates the `expires` column using cookie.maxAge

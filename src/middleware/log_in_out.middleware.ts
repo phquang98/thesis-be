@@ -15,11 +15,3 @@ export const loginHandler: TMddlwr = async (req, res, next) => {
   }
   return res.status(400).json({ msg: "Credentials not existed!", affectedResource: "Login Middleware" });
 };
-
-// pass this to destroySession
-export const logoutHandler: RequestHandler = async (req, res, next) => {
-  if (req.session.user_id) {
-    return next();
-  }
-  return res.status(400).json({ msg: "Failed logout, no cookie!", affectedResource: "Logout Middleware" });
-};

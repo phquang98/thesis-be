@@ -4,6 +4,6 @@ import { readBalanceSheetByIndividual } from "../controller";
 
 const transactionRouter = express.Router();
 
-transactionRouter.get("/individual/:bAccountIDHere", readBalanceSheetByIndividual);
+transactionRouter.get("/individual/:bAccIdHere", readBalanceSheetByIndividual);
 
 export { transactionRouter };

@@ -1,9 +1,10 @@
 import { getRepository } from "typeorm";
 
 import { UserAccount, UserInfo } from "../entity";
-import { generateUser, uAccRequestHandler } from "../util";
+import { generateUser } from "../util";
+import { TUAccCtrller } from "../types";
 
-export const createUAcc: uAccRequestHandler = async (req, res, _next) => {
+export const createUAcc: TUAccCtrller = async (req, res, _next) => {
   const { clientData } = req.body;
 
   try {
@@ -21,3 +22,5 @@ export const createUAcc: uAccRequestHandler = async (req, res, _next) => {
     return res.status(400).json({ msg: "bad req", affectedResource: "UserAccount" });
   }
 };
+
+// export const deleteUAcc: TUAccCtrller = async (req, res, next) => {};

@@ -5,13 +5,12 @@ import { transactionRequestHandler } from "../util";
 
 // NOTE: WHERE OR -> pass an array or perform a QueryBuilder
 export const readBalanceSheetByIndividual: transactionRequestHandler = async (req, res, _next) => {
-  const { bAccountIDHere } = req.params;
-  console.log("bAccountIDHere", bAccountIDHere);
+  const { bAccIdHere } = req.params;
 
   try {
-    if (bAccountIDHere && bAccountIDHere !== "") {
+    if (bAccIdHere && bAccIdHere !== "") {
       const suspectClt = await getRepository(FinTransaction).find({
-        where: [{ sender_baccid: bAccountIDHere }, { receiver_baccid: bAccountIDHere }]
+        where: [{ sender_baccid: bAccIdHere }, { receiver_baccid: bAccIdHere }]
       });
       if (suspectClt.length === 0) {
         return res

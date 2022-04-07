@@ -28,11 +28,11 @@ export const createBAccount: bAccRequestHandler = async (req, res, _next) => {
 };
 
 export const readBAccount: bAccRequestHandler = async (req, res, _next) => {
-  const { bAccountIDHere } = req.params;
+  const { bAccIdHere } = req.params;
 
   try {
-    if (bAccountIDHere && bAccountIDHere !== "") {
-      const suspect = await getRepository(BankAccount).findOne({ id: bAccountIDHere });
+    if (bAccIdHere && bAccIdHere !== "") {
+      const suspect = await getRepository(BankAccount).findOne({ id: bAccIdHere });
       return suspect
         ? res.status(200).json({ msg: "Got one", affectedResource: "BankAccount", serverData: suspect })
         : res.status(404).json({ msg: "Failed to get one 1: not found", affectedResource: "BankAccount" });
@@ -44,11 +44,11 @@ export const readBAccount: bAccRequestHandler = async (req, res, _next) => {
 };
 
 export const deleteBAccount: bAccRequestHandler = async (req, res, _next) => {
-  const { bAccountIDHere } = req.params;
+  const { bAccIdHere } = req.params;
 
   try {
-    if (bAccountIDHere && bAccountIDHere !== "") {
-      const suspect = await getRepository(BankAccount).findOne({ id: bAccountIDHere });
+    if (bAccIdHere && bAccIdHere !== "") {
+      const suspect = await getRepository(BankAccount).findOne({ id: bAccIdHere });
 
       if (suspect) {
         const queryResult = await getRepository(BankAccount).remove(suspect); // queryResult miss id prop
@@ -68,7 +68,7 @@ export const generateOneTransaction: bAccRequestHandler = async (req, res, _next
   const { clientData } = req.body;
 
   try {
-    if ("sender_baccid" in clientData && req.params.bAccountIDHere === clientData.sender_baccid) {
+    if ("sender_baccid" in clientData && req.params.bAccIdHere === clientData.sender_baccid) {
       const { sender_baccid, receiver_baccid, amount } = clientData;
 
       const senderDeduct = await getRepository(BankAccount).findOne({ id: sender_baccid });
@@ -103,17 +103,17 @@ export const generateOneTransaction: bAccRequestHandler = async (req, res, _next
 };
 
 export const simulateSalaryEarning: bAccRequestHandler = async (req, res, _next) => {
-  const { bAccountIDHere } = req.params;
+  const { bAccIdHere } = req.params;
   const { clientData } = req.body;
 
   try {
-    if (bAccountIDHere && "amount" in clientData) {
+    if (bAccIdHere && "amount" in clientData) {
       const { amount } = clientData;
 
-      const suspect = await getRepository(BankAccount).findOne({ id: bAccountIDHere });
+      const suspect = await getRepository(BankAccount).findOne({ id: bAccIdHere });
 
       if (suspect) {
-        const tmpTransactData = generateFinTransaction("1", bAccountIDHere, amount);
+        const tmpTransactData = generateFinTransaction("1", bAccIdHere, amount);
         const tmpTransact = getRepository(FinTransaction).create(tmpTransactData);
         await getRepository(FinTransaction).save(tmpTransact);
         const queryRes = await getRepository(BankAccount).save({ ...suspect, balance: suspect.balance + amount });

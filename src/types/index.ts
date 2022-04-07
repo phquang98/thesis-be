@@ -1,1 +1,3 @@
-// TODO: consider create types for each folders as it is growing too fast
+// const reqParamsExpectedClt = ["userIdHere", "bAccIdHere", "finTransIdHere"] as const;
+
+export * from "./user_account.type";
