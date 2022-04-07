@@ -1,4 +1,3 @@
-import { xConfig } from "../config";
 import { TMddlwr } from "../types/middleware.type";
 
 // <https://stackoverflow.com/a/20638421/8834000>

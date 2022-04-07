@@ -1,5 +1,7 @@
 # Thesis Backend
 
+Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
+
 ## Notes
 
 - `npm i pg reflect-metadata typeorm uuid express-session connect-pg-simple` + `npm i -D @types/pg @types/express-session @types/connect-pg-simple @types/uuid`
@@ -20,3 +22,9 @@
 - by default, every request to the server will have a sessionId (cause of `app.use(session())`, notices global scope/no specific routes); but only sessionId that saved inside the `session` table is what matters
   - not sure if correct
 - [why not put session id in query params (and maybe also path variables ?)](https://stackoverflow.com/a/35090676/8834000)
+- config folder: do not allow "" as acceptable value -> || not ??
+
+## Critics
+
+- [File structure is functionality-based aka not good](https://github.com/goldbergyoni/nodebestpractices/blob/master/sections/projectstructre/breakintcomponents.md)
+  - Arguments: simple application atm
