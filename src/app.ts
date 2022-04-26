@@ -24,7 +24,7 @@ app.use(session(sessOpts));
 app.use("/", userAccountRouter);
 app.use("/bankaccount", bankAccountRouter);
 app.use("/transaction", transactionRouter);
-app.use("/user/info", userInfoRouter);
+app.use("/userinfo", userInfoRouter);
 
 // --- Make CXN to DB ---
 connPgDB();

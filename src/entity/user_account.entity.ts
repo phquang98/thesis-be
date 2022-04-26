@@ -1,4 +1,5 @@
 import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
+
 import { UserInfo } from "./user_info.entity";
 
 @Entity("user_account")

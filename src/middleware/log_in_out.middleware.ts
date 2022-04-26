@@ -1,10 +1,9 @@
-import { RequestHandler, Request } from "express";
 import { getRepository } from "typeorm";
 
 import { UserAccount } from "../entity";
-import { TMddlwr } from "../types/middleware.type";
+import { TMddlwr } from "../types";
 
-// find user_account record that has creds -> pass to createSession
+// Takes submitted data from client -> find account_name in UAcc resource -> if account_pwd matches -> continue
 export const loginHandler: TMddlwr = async (req, res, next) => {
   const { account_name, account_pwd } = req.body.clientData;
   const suspect = await getRepository(UserAccount).findOne({ account_name }); // shorthand

@@ -20,8 +20,6 @@ userAccountRouter.post("/login", checkReqBodyMddlwr(["account_name", "account_pw
 
 userAccountRouter.post("/:userIdHere/reload", checkReqParamsMddlwr, [authN, authZ], reloadSession);
 
-userAccountRouter.post("/:userIdHere/logout", [authN, authZ], deleteSession);
-
-// userAccountRouter.post("/:userIdHere/close", deleteUAcc);
+userAccountRouter.post("/:userIdHere/logout", checkReqParamsMddlwr, [authN, authZ], deleteSession);
 
 export { userAccountRouter };

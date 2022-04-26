@@ -2,6 +2,14 @@
 
 Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
 
+## Explain
+
+- `express-session` will handles all the session stuff internally, pay attention to these
+  - every request to BE will be given a session record + sid, but we only cared about session records that has user_id prop (cause that means Client === logged in User)
+  - `express-session` will do below (you don't need to manually write code for those)
+    - auto extract the Cookie header containing sid when receiving Request containing header Cookie
+    - auto parse sid -> auto send it to Client
+
 ## Notes
 
 - `npm i pg reflect-metadata typeorm uuid express-session connect-pg-simple` + `npm i -D @types/pg @types/express-session @types/connect-pg-simple @types/uuid`

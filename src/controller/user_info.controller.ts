@@ -28,15 +28,15 @@ export const readUInfo: uInfoRequestHandler = async (req, res, _next) => {
   const { userIdHere } = req.params;
 
   try {
-    if (userIdHere && userIdHere !== "") {
+    if (userIdHere) {
       const suspect = await getRepository(UserInfo).findOne({ id: userIdHere });
       return suspect
-        ? res.status(200).json({ msg: "Got one", affectedResource: "user_info", serverData: suspect })
-        : res.status(404).json({ msg: "Get failed 1: not found", affectedResource: "user_info" });
+        ? res.status(200).json({ msg: "Got one", affectedResource: "UserInfo", serverData: suspect })
+        : res.status(404).json({ msg: "Get failed 1: not found", affectedResource: "UserInfo" });
     }
-    return res.status(400).json({ msg: "Get failed 2: req-params missing/malformed", affectedResource: "user_info" });
+    return res.status(400).json({ msg: "Get failed 2: req-params missing/malformed", affectedResource: "UserInfo" });
   } catch (error) {
-    return res.status(400).json({ msg: "Get failed 3: bad req", affectedResource: "user_info" });
+    return res.status(400).json({ msg: "Get failed 3: bad req", affectedResource: "UserInfo" });
   }
 };
 

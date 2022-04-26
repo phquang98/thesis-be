@@ -84,13 +84,6 @@ export type TUInfo = {
   pnum?: string;
 };
 
-export type TUserAcc = {
-  account_name: string;
-  account_pwd: string;
-  is_admin: boolean;
-  user_id: string;
-};
-
 // --- Custom defined type guards ---
 
 /**

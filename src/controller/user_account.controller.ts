@@ -2,9 +2,9 @@ import { getRepository } from "typeorm";
 
 import { UserAccount, UserInfo } from "../entity";
 import { generateUser } from "../util";
-import { TUAccCtrller } from "../types";
+import { TUAccController } from "../types";
 
-export const createUAcc: TUAccCtrller = async (req, res, _next) => {
+export const createUAcc: TUAccController = async (req, res, _next) => {
   const { clientData } = req.body;
 
   try {
@@ -19,8 +19,10 @@ export const createUAcc: TUAccCtrller = async (req, res, _next) => {
     await getRepository(UserAccount).save(tmpInstncUAcc);
     return res.status(201).json({ msg: "User account created.", affectedResource: "UserAccount, UserInfo" });
   } catch (error) {
-    return res.status(400).json({ msg: "bad req", affectedResource: "UserAccount" });
+    return res.status(400).json({ msg: "Bad request!", affectedResource: "UserAccount" });
   }
 };
 
-// export const deleteUAcc: TUAccCtrller = async (req, res, next) => {};
+// export const deleteUAcc: TUAccController = async (req, res, next) => {};
+
+// export const changePwd: TUAccController = async (req, res, next) => {};

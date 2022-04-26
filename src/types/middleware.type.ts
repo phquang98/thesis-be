@@ -1,9 +1,9 @@
-// This will be first line -> be as vague as possible, as those below must extends from this
 import { RequestHandler } from "express";
 
-import { TUserAcc } from "../util";
+import { TUserAcc } from "./";
 
-// type TReqParams = Record<string, unknown>;
+// Typings for all middlewares, maybe incorrect
+
 type TReqParams = { userIdHere: string };
 
 type TReqBody = {

@@ -1,8 +1,18 @@
 import { RequestHandler } from "express";
 
-import { TUserAcc, TUInfo } from "../util";
+import { TUInfo } from "../util";
 
-// type TReqParams = Record<string, unknown>;
+// --- Resource typings ---
+
+export type TUserAcc = {
+  account_name: string;
+  account_pwd: string;
+  is_admin: boolean;
+  user_id: string;
+};
+
+// --- Controller typings ---
+
 type TReqParams = { userIdHere: string };
 
 type TReqBody = {
@@ -15,4 +25,4 @@ type TResBody = {
   serverData?: Record<string, unknown>;
 };
 
-export type TUAccCtrller = RequestHandler<TReqParams, TResBody, TReqBody>;
+export type TUAccController = RequestHandler<TReqParams, TResBody, TReqBody>;

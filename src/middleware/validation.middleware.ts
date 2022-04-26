@@ -1,13 +1,13 @@
 import { RequestHandler } from "express";
 
-// Helpers func: check internally if route have the path var named like literals below
+// Helper func checking if params has pre-defined paramKey (internal use only, see below)
 const reqParamsExpectedClt = ["userIdHere", "bAccIdHere", "finTransIdHere"] as const;
 export type TExpectedReqParams = typeof reqParamsExpectedClt[number];
 export const isExpectedReqParams = (reqParamKey: string): reqParamKey is TExpectedReqParams => {
   return (reqParamsExpectedClt as readonly string[]).indexOf(reqParamKey) >= 0;
 };
 
-// Check if params has necessary path variables, READ BELOW
+// Check params has pre-defined paramKey/path variables, see below
 export const checkReqParamsMddlwr: RequestHandler = (req, res, next) => {
   for (const pathVar in req.params) {
     if (isExpectedReqParams(pathVar)) {
@@ -19,7 +19,7 @@ export const checkReqParamsMddlwr: RequestHandler = (req, res, next) => {
     .json({ msg: "Request parameters not recognized or missing!", affectedResource: "Params Middleware" });
 };
 
-// Check if body has all necessary props
+// Check body has required arg props
 export const checkReqBodyMddlwr = (suspectKeyClt: string[]): RequestHandler => {
   const checkReqBody: RequestHandler = (req, res, next) => {
     if ("clientData" in req.body && suspectKeyClt.every((ele) => ele in req.body.clientData)) {
@@ -31,7 +31,7 @@ export const checkReqBodyMddlwr = (suspectKeyClt: string[]): RequestHandler => {
   return checkReqBody;
 };
 
-/** Explain: usually put these 1st in every route for props narrowing
+/** Explain: Put these in 1st order in any routes for for props narrowing
  *
  * checkReqParamsMddlwr: Probably useless, only for internal TS code checking, e.g has route POST localhost:4000/:resourceIDHere/ -> POSTMAN POST localhost:4000/:resourceIDHere/ but resourceIDHere null -> server will understand POST localhost:4000//
  *
