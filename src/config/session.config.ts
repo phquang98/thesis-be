@@ -42,7 +42,7 @@ export const sessOpts: SessionOptions = {
     secure: false, // careful with this ??? set nodejs trust proxy if use proxy like nginx
     sameSite: "lax", // lax strict none clgt ???
     path: "/"
-    // domain: "http://localhost:4000" // this shit cause error ???
+    // domain: "http://127.0.0.1" // <https://stackoverflow.com/a/1188145/8834000>
     // signed: ???
   },
   saveUninitialized: false, // don't save empty session right from start

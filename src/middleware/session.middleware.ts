@@ -3,8 +3,10 @@ import { getRepository } from "typeorm";
 import { UserAccount } from "../entity";
 import { TMddlwr } from "../types";
 
-/** Create a session record with user_id inside based on user credentials
+/** Create session + returns sid in body
  *
+ * - create a session record with user_id inside based on user credentials
+ * - returns the sid in res.body for easy access (e.g FE put this in Context for usage)
  */
 export const createSession: TMddlwr = async (req, res, _next) => {
   // refuses already logged-in user
@@ -19,9 +21,14 @@ export const createSession: TMddlwr = async (req, res, _next) => {
   const uAccTmp = await getRepository(UserAccount).findOne({ account_name });
 
   req.session.user_id = uAccTmp?.user_id; // TODO: put this in locals in previous mddlwr
+
   return res.status(200).json({
     msg: `Session created user_id: ${req.session.user_id} | this sessionID: ${req.sessionID}`,
-    affectedResource: "Middleware Session"
+    affectedResource: "Middleware Session",
+    serverData: {
+      user_id: req.session.user_id,
+      sid: req.sessionID
+    }
   });
 };
 
