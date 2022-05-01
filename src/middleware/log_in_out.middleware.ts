@@ -10,7 +10,9 @@ export const loginHandler: TMddlwr = async (req, res, next) => {
   if (suspect) {
     return suspect.account_pwd === account_pwd
       ? next()
-      : res.status(400).json({ msg: "Wrong credentials!", affectedResource: "UserAccount" });
+      : res.status(400).json({ msg: "Wrong credentials!", affectedResource: "UserAccount", serverData: {} });
   }
-  return res.status(400).json({ msg: "Credentials not existed!", affectedResource: "Login Middleware" });
+  return res
+    .status(400)
+    .json({ msg: "Credentials not existed!", affectedResource: "Login Middleware", serverData: {} });
 };

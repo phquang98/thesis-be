@@ -13,7 +13,7 @@ type TReqBody = {
 type TResBody = {
   msg: string;
   affectedResource: string;
-  serverData?: Record<string, unknown>;
+  serverData: Record<string, string>;
 };
 
 export type TMddlwr = RequestHandler<TReqParams, TResBody, TReqBody>;

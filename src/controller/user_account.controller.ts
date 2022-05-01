@@ -1,7 +1,7 @@
 import { getRepository } from "typeorm";
 
 import { UserAccount, UserInfo } from "../entity";
-import { generateUser } from "../util";
+import { generateUser, HTTPStatusCode } from "../util";
 import { TUAccController } from "../types";
 
 export const createUAcc: TUAccController = async (req, res, _next) => {
@@ -10,16 +10,31 @@ export const createUAcc: TUAccController = async (req, res, _next) => {
   try {
     const suspect = await getRepository(UserInfo).findOne({ email: clientData.email });
     if (suspect) {
-      return res.status(400).json({ msg: "Email already in used!", affectedResource: "UserAccount, UserInfo" });
+      return res.status(HTTPStatusCode.BAD_REQUEST).json({
+        statusCode: HTTPStatusCode.BAD_REQUEST,
+        msg: "Email already in used!",
+        affectedResource: "UserAccount, UserInfo",
+        serverData: {}
+      });
     }
     const [userInfoData, userAccData] = generateUser(clientData);
     const tmpInstncUInfo = getRepository(UserInfo).create(userInfoData);
     const tmpInstncUAcc = getRepository(UserAccount).create(userAccData);
     await getRepository(UserInfo).save(tmpInstncUInfo);
     await getRepository(UserAccount).save(tmpInstncUAcc);
-    return res.status(201).json({ msg: "User account created.", affectedResource: "UserAccount, UserInfo" });
+    return res.status(HTTPStatusCode.CREATED).json({
+      statusCode: HTTPStatusCode.CREATED,
+      msg: "User account created.",
+      affectedResource: "UserAccount, UserInfo",
+      serverData: {}
+    });
   } catch (error) {
-    return res.status(400).json({ msg: "Bad request!", affectedResource: "UserAccount" });
+    return res.status(HTTPStatusCode.BAD_REQUEST).json({
+      statusCode: HTTPStatusCode.BAD_REQUEST,
+      msg: "Bad request!",
+      affectedResource: "UserAccount",
+      serverData: {}
+    });
   }
 };
 

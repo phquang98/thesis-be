@@ -12,7 +12,9 @@ export const authN: TMddlwr = (req, res, next) => {
 
   // don't have user_id -> not yet saved in `session` table -> not logged in
   if (!req.session.user_id) {
-    return res.status(400).json({ msg: "Session missing prop user_id!", affectedResource: "authN Middleware" });
+    return res
+      .status(400)
+      .json({ msg: "Session missing prop user_id!", affectedResource: "authN Middleware", serverData: {} });
   }
   return next();
 };
@@ -28,7 +30,9 @@ export const authZ: TMddlwr = (req, res, next) => {
   if (req.session.user_id === req.params.userIdHere) {
     return next();
   }
-  return res.status(400).json({ msg: "Session not matched with logged user!", affectedResource: "AuthZ Middleware" });
+  return res
+    .status(400)
+    .json({ msg: "Session not matched with logged user!", affectedResource: "AuthZ Middleware", serverData: {} });
 };
 
 // Explain:

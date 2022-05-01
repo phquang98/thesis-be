@@ -2,6 +2,7 @@ import { getRepository } from "typeorm";
 
 import { UserAccount } from "../entity";
 import { TMddlwr } from "../types";
+import { HTTPStatusCode } from "../util";
 
 /** Create session + returns sid in body
  *
@@ -13,16 +14,17 @@ export const createSession: TMddlwr = async (req, res, _next) => {
   if (req.session.user_id) {
     return res.status(400).json({
       msg: `Session existed already! user_id: ${req.session.user_id} | this sessionID: ${req.sessionID}`,
-      affectedResource: "Session Middleware"
+      affectedResource: "Session Middleware",
+      serverData: {}
     });
   }
 
   const { account_name } = req.body.clientData;
   const uAccTmp = await getRepository(UserAccount).findOne({ account_name });
 
-  req.session.user_id = uAccTmp?.user_id; // TODO: put this in locals in previous mddlwr
+  req.session.user_id = uAccTmp?.user_id as string; // TODO: very dirty fix, put this in locals in previous mddlwr
 
-  return res.status(200).json({
+  return res.status(HTTPStatusCode.OK).json({
     msg: `Session created user_id: ${req.session.user_id} | this sessionID: ${req.sessionID}`,
     affectedResource: "Middleware Session",
     serverData: {
@@ -43,14 +45,20 @@ export const deleteSession: TMddlwr = (req, res, _next) => {
   if (req.session.user_id) {
     req.session.destroy((err) => {
       if (err) {
-        return res
-          .status(400)
-          .json({ msg: `Failed to destroy session ${req.sessionID}`, affectedResource: "Session Middleware" });
+        return res.status(400).json({
+          msg: `Failed to destroy session ${req.sessionID}`,
+          affectedResource: "Session Middleware",
+          serverData: {}
+        });
       }
     });
-    return res.status(200).json({ msg: `Session ${req.sessionID} deleted!`, affectedResource: "Session Middleware" });
+    return res
+      .status(200)
+      .json({ msg: `Session ${req.sessionID} deleted!`, affectedResource: "Session Middleware", serverData: {} });
   }
-  return res.status(400).json({ msg: `Session not recognized!`, affectedResource: "Session Middleware" });
+  return res
+    .status(400)
+    .json({ msg: `Session not recognized!`, affectedResource: "Session Middleware", serverData: {} });
 };
 
 /** Updates the `expires` column using cookie.maxAge
@@ -64,10 +72,14 @@ export const reloadSession: TMddlwr = (req, res, _next) => {
   if (req.session.user_id) {
     req.session.reload((err) => {
       if (err) {
-        return res.status(400).json({ msg: "Failed to reload session", affectedResource: "Session Middleware" });
+        return res
+          .status(400)
+          .json({ msg: "Failed to reload session", affectedResource: "Session Middleware", serverData: {} });
       }
     });
-    return res.status(200).json({ msg: "Session reloaded, extended ttl!", affectedResource: "Session Middleware" });
+    return res
+      .status(200)
+      .json({ msg: "Session reloaded, extended ttl!", affectedResource: "Session Middleware", serverData: {} });
   }
-  return res.status(400).json({ msg: "Missing cookie!", affectedResource: "Session Middleware" });
+  return res.status(400).json({ msg: "Missing cookie!", affectedResource: "Session Middleware", serverData: {} });
 };

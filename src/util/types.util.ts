@@ -1,6 +1,19 @@
 import { RequestHandler } from "express";
+import { HTTPStatusCode } from "./constants";
+
+// TODO: 01/05/2022: delete everything in here, only keeps Base typings def
 
 // --- Controller Typings ---
+
+export type BaseResBody = {
+  statusCode: HTTPStatusCode;
+  msg: string;
+  affectedResource: string;
+};
+
+export type BaseReqQuery = Record<string, unknown>;
+
+export type BaseResLocals = Record<string, unknown>;
 
 // NOTE: check README
 
@@ -18,9 +31,21 @@ type uInfoReqBody = {
   clientData: TUInfo;
 };
 
-export type uInfoRequestHandler = RequestHandler<{ userIdHere: string }, xResBody, uInfoReqBody, xReqQuery, xResLocals>;
+export type uInfoRequestHandler = RequestHandler<
+  { userIdHere: string },
+  xResBody,
+  uInfoReqBody,
+  BaseReqQuery,
+  BaseResLocals
+>;
 
-export type bAccRequestHandler = RequestHandler<{ bAccIdHere: string }, xResBody, bAccReqBody, xReqQuery, xResLocals>;
+export type bAccRequestHandler = RequestHandler<
+  { bAccIdHere: string },
+  xResBody,
+  bAccReqBody,
+  BaseReqQuery,
+  BaseResLocals
+>;
 
 export type transactionRequestHandler = RequestHandler<{ bAccIdHere: string }>;
 
@@ -30,16 +55,12 @@ export type transactionRequestHandler = RequestHandler<{ bAccIdHere: string }>;
 //   sessionID: string;
 // };
 
-export type xReqQuery = Record<string, unknown>;
-
 // NOTE: no need typeguard, as here we put stuff inside serverData, not extract from it -> DGAF
 export type xResBody = {
   msg: string;
   affectedResource: string;
   serverData?: TBankAccount | TCustomerAccount | TFinTransaction | TFinTransaction[] | TUInfo;
 };
-
-export type xResLocals = Record<string, unknown>;
 
 // --- Application Typings ---
 
@@ -63,8 +84,6 @@ type TUser = {
 };
 
 export type TCustomerAccount = TUser & { is_admin: false; pwd: string };
-
-export type TAdminAccount = TUser & { is_admin: true; pwd: string };
 
 export type TFinTransaction = {
   id: string;
