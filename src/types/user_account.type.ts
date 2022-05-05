@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 
-import { BaseResBody, TUInfo } from "../util";
+import { TUInfo } from ".";
+import { BaseReqQuery, BaseResBody, BaseResLocals } from "../util";
 
 // --- Entity typings ---
 
@@ -23,4 +24,4 @@ type UAccReqBody = {
   clientData: Pick<TUserAcc, "account_name" | "account_pwd"> & Pick<TUInfo, "name" | "email">;
 };
 
-export type TUAccController = RequestHandler<UAccReqParams, UAccResBody, UAccReqBody>;
+export type TUAccController = RequestHandler<UAccReqParams, UAccResBody, UAccReqBody, BaseReqQuery, BaseResLocals>;

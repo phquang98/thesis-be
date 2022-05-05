@@ -6,7 +6,10 @@ import { authN, authZ } from "../middleware";
 const userInfoRouter = express.Router();
 
 userInfoRouter.post("/", createUInfo); // internally only
-userInfoRouter.get("/:userIdHere", [authN, authZ], readUInfo);
-userInfoRouter.put("/:userIdHere", [authN, authZ], updateUInfo);
+userInfoRouter.get("/:userIdHere", readUInfo);
+userInfoRouter.put("/:userIdHere", updateUInfo);
+
+// userInfoRouter.get("/:userIdHere", [authN, authZ], readUInfo);
+// userInfoRouter.put("/:userIdHere", [authN, authZ], updateUInfo);
 
 export { userInfoRouter };

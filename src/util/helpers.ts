@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { TBankAccount, TFinTransaction, TUInfo } from "./types.util";
-import { TUserAcc } from "../types";
+import { TBankAccount, TFinTransaction, TUInfo, TUserAcc } from "../types";
 
 // NOTE: all this helpers are unsafe, make sure what passed in is not falsy
 

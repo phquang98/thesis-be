@@ -1,9 +1,16 @@
 import express from "express";
 
-import { readBalanceSheetByIndividual } from "../controller";
+import { generateOneTransaction, readBalanceSheetByIndividual } from "../controller";
 
-const transactionRouter = express.Router();
+const finTransactionRouter = express.Router();
 
-transactionRouter.get("/individual/:bAccIdHere", readBalanceSheetByIndividual);
+finTransactionRouter.get("/:bAccIdHere", readBalanceSheetByIndividual);
 
-export { transactionRouter };
+finTransactionRouter.post("/:bAccIdHere/transact", generateOneTransaction);
+// bankAccountRouter.post(
+//   "/:bAccIdHere/transact",
+//   [checkReqParamsMddlwr, checkReqBodyMddlwr(["sender_baccid", "receiver_baccid", "amount"])],
+//   generateOneTransaction
+// );
+
+export { finTransactionRouter };

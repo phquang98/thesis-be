@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 
+import { BaseResBody } from "../util";
 import { TUserAcc } from "./";
 
 // Typings for all middlewares, maybe incorrect
@@ -10,9 +11,7 @@ type TReqBody = {
   clientData: Pick<TUserAcc, "account_name" | "account_pwd">;
 };
 
-type TResBody = {
-  msg: string;
-  affectedResource: string;
+type TResBody = BaseResBody & {
   serverData: Record<string, string>;
 };
 

@@ -14,12 +14,20 @@ import {
 
 const userAccountRouter = express.Router();
 
-userAccountRouter.post("/register", checkReqBodyMddlwr(["name", "email", "account_name", "account_pwd"]), createUAcc);
+userAccountRouter.post("/register", createUAcc);
 
-userAccountRouter.post("/login", checkReqBodyMddlwr(["account_name", "account_pwd"]), loginHandler, createSession);
+userAccountRouter.post("/login", loginHandler, createSession);
 
-userAccountRouter.post("/:userIdHere/reload", checkReqParamsMddlwr, [authN, authZ], reloadSession);
+userAccountRouter.post("/:userIdHere/reload", reloadSession);
 
-userAccountRouter.post("/:userIdHere/logout", checkReqParamsMddlwr, [authN, authZ], deleteSession);
+userAccountRouter.post("/:userIdHere/logout", deleteSession);
+
+// userAccountRouter.post("/register", checkReqBodyMddlwr(["name", "email", "account_name", "account_pwd"]), createUAcc);
+
+// userAccountRouter.post("/login", checkReqBodyMddlwr(["account_name", "account_pwd"]), loginHandler, createSession);
+
+// userAccountRouter.post("/:userIdHere/reload", checkReqParamsMddlwr, [authN, authZ], reloadSession);
+
+// userAccountRouter.post("/:userIdHere/logout", checkReqParamsMddlwr, [authN, authZ], deleteSession);
 
 export { userAccountRouter };

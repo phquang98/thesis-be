@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+
 import { BaseReqQuery, BaseResBody, BaseResLocals } from "../util";
 
 // --- Entity typings ---
@@ -16,10 +17,12 @@ export type TFinTransaction = {
 type FinTransactionReqParams = { bAccIdHere: string };
 
 type FinTransactionResBody = BaseResBody & {
-  serverData: Record<string, never>; // TODO: fix this
+  serverData: TFinTransaction[] | Record<string, never>;
 };
 
-type FinTransactionReqBody = Record<string, never>; // TODO: fix this
+type FinTransactionReqBody = {
+  clientData: Pick<TFinTransaction, "sender_baccid" | "receiver_baccid" | "amount">;
+};
 
 export type TFinTransactionRequestHandler = RequestHandler<
   FinTransactionReqParams,

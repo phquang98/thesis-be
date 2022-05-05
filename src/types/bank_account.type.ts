@@ -1,6 +1,5 @@
 import { RequestHandler } from "express";
 
-import { TFinTransaction } from ".";
 import { BaseReqQuery, BaseResBody, BaseResLocals } from "../util";
 
 // --- Entity typings ---
@@ -25,13 +24,9 @@ type BAccResBody = BaseResBody & {
 };
 
 type BAccReqBody = {
-  clientData:
-    | {
-        customer_id: string;
-      }
-    | Pick<TFinTransaction, "sender_baccid" | "receiver_baccid" | "amount">
-    | { depositBAccID: string; depositAmount: number }
-    | { amount: number };
+  clientData: {
+    customer_id: string;
+  };
 };
 
 export type TBAccRequestHandler = RequestHandler<BAccReqParams, BAccResBody, BAccReqBody, BaseReqQuery, BaseResLocals>;

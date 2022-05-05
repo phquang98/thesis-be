@@ -5,7 +5,7 @@ import express from "express";
 import session from "express-session";
 
 import { confObj } from "./config";
-import { bankAccountRouter, transactionRouter, userAccountRouter, userInfoRouter } from "./route";
+import { bankAccountRouter, finTransactionRouter, userAccountRouter, userInfoRouter } from "./route";
 
 // --- Config + Initiate server ---
 dotenv.config();
@@ -23,7 +23,7 @@ app.use(session(sessOpts));
 
 app.use("/", userAccountRouter);
 app.use("/bankaccount", bankAccountRouter);
-app.use("/transaction", transactionRouter);
+app.use("/transaction", finTransactionRouter);
 app.use("/userinfo", userInfoRouter);
 
 // --- Make CXN to DB ---

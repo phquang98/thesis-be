@@ -2,6 +2,7 @@ import { getRepository } from "typeorm";
 
 import { UserAccount } from "../entity";
 import { TMddlwr } from "../types";
+import { HTTPStatusCode } from "../util";
 
 // Takes submitted data from client -> find account_name in UAcc resource -> if account_pwd matches -> continue
 export const loginHandler: TMddlwr = async (req, res, next) => {
@@ -10,9 +11,17 @@ export const loginHandler: TMddlwr = async (req, res, next) => {
   if (suspect) {
     return suspect.account_pwd === account_pwd
       ? next()
-      : res.status(400).json({ msg: "Wrong credentials!", affectedResource: "UserAccount", serverData: {} });
+      : res.status(HTTPStatusCode.BAD_REQUEST).json({
+          statusCode: HTTPStatusCode.BAD_REQUEST,
+          msg: "Wrong credentials!",
+          affectedResource: "UserAccount",
+          serverData: {}
+        });
   }
-  return res
-    .status(400)
-    .json({ msg: "Credentials not existed!", affectedResource: "Login Middleware", serverData: {} });
+  return res.status(HTTPStatusCode.BAD_REQUEST).json({
+    statusCode: HTTPStatusCode.BAD_REQUEST,
+    msg: "Credentials not existed!",
+    affectedResource: "Login Middleware",
+    serverData: {}
+  });
 };
