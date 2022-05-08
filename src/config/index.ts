@@ -1,9 +1,2 @@
-import { connPgDB } from "./db.config";
-import { confServer } from "./server.config";
-import { sessOpts } from "./session.config";
-
-export const confObj = {
-  confServer,
-  connPgDB,
-  sessOpts
-};
+export {};
+// put all stuffs from process.env.NODE_APP_STH in here and extract it out as a single object

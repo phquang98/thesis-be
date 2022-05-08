@@ -2,34 +2,26 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
 import express from "express";
-import session from "express-session";
 
-import { confObj } from "./config";
-import { bankAccountRouter, finTransactionRouter, userAccountRouter, userInfoRouter } from "./route";
+import "module-alias/register";
+
+import { appRouter } from "~/route";
 
 // --- Config + Initiate server ---
-dotenv.config();
+dotenv.config(); // read key-value pairs from .env
+const port = process.env.PORT_NUMBER_HERE || 4000;
 
-const app = express();
-
-const { confServer, connPgDB, sessOpts } = confObj;
+const app = express(); // create an express app server
 
 // --- Top Lv Middlewares ---
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // TLDR can send json data from FE to endpoints
+app.use(express.urlencoded({ extended: true })); // if use Form submit, data from form will be written to req.body
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms"));
-app.use(cors(confServer.customCORSOpts));
-app.use(session(sessOpts));
+app.use(cors());
 
-app.use("/", userAccountRouter);
-app.use("/bankaccount", bankAccountRouter);
-app.use("/transaction", finTransactionRouter);
-app.use("/userinfo", userInfoRouter);
+// --- Run server ---
+app.use(appRouter);
 
-// --- Make CXN to DB ---
-connPgDB();
-
-// --- Start server ---
-app.listen(confServer.port, () => {
-  console.log(`Server started at port ${confServer.port}!`);
+app.listen(port, () => {
+  console.log(`Server started at port ${port}`);
 });

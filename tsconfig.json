@@ -5,8 +5,13 @@
     "lib": ["dom", "es2015", "es5", "es6", "es2020"],
     "sourceMap": true,
     "moduleResolution": "node",
+    "baseUrl": ".",
     "outDir": "./dist",
     "rootDir": "./src",
+    "paths": {
+      // KEYS SAME IN PACKAGE.JSON
+      "~/*": ["./src/*"]
+    },
     "strict": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true, // allow import foo from "foo", not import * as foo from "foo"
@@ -14,7 +19,6 @@
     "esModuleInterop": true,
     "emitDecoratorMetadata": true, // many libs use decorators now, e.g typeorm
     "experimentalDecorators": true, // many libs use decorators now, e.g typeorm
-    "strictPropertyInitialization": false, // prevent using non-null assertion operator when using decorators
-    "typeRoots": ["./node_modules/@types", "./util"]
+    "strictPropertyInitialization": false // prevent using non-null assertion operator when using decorators
   }
 }

@@ -1,4 +1,12 @@
-export { finTransactionRouter } from "./fin_transaction.route";
-export { bankAccountRouter } from "./bank_account.route";
-export { userInfoRouter } from "./user_info.route";
-export { userAccountRouter } from "./user_account.route";
+import express from "express";
+
+import { healthCheckHdlr } from "~/middleware/healthCheck"; // should be wrapped inside a resource router instead
+import { resourceRouter } from "~/route/business/resource.route";
+
+const appRouter = express.Router();
+
+appRouter.get("/healthcheck", healthCheckHdlr);
+
+appRouter.use("/resource", resourceRouter);
+
+export { appRouter };
