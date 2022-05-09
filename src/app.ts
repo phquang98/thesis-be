@@ -2,7 +2,7 @@ import "module-alias/register";
 import dotenv from "dotenv";
 
 import { envChecker } from "~/config/env";
-import { initialCxnDB } from "~/config/datasource";
+import { initialCxnDB } from "~/config/dataSource";
 import { server } from "~/config/server";
 
 dotenv.config(); // read key-value pairs from .env

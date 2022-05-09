@@ -1,5 +1,4 @@
-import { getRepository } from "typeorm";
-import { appDataSource } from "~/config/datasource";
+import { appDataSource } from "~/config/dataSource";
 
 import { UserInfo } from "~/resources/UserInfo/UserInfo.entity";
 import { TUInfo } from "~/types/business";
