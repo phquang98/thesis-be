@@ -1,4 +1,4 @@
-import { HttpStatusCode } from "~/util/constants";
+import { HttpStatusCode } from "~/utils/constants";
 
 // --- Controller Typings ---
 

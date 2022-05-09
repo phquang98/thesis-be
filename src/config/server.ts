@@ -3,7 +3,7 @@ import cors from "cors";
 import express from "express";
 import session from "express-session";
 
-import { appRouter } from "~/route";
+import { appRouter } from "~/routes";
 import { appCORSOpts } from "~/config/cors";
 import { appSessOpts } from "~/config/session";
 

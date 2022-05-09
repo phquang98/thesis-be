@@ -2,6 +2,7 @@ import { DataSource } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
 import { envChecker } from "~/config/env";
+import { UserInfo } from "~/resources/UserInfo/UserInfo.entity";
 
 const envObj = envChecker();
 type TFoo = typeof envObj;
@@ -19,7 +20,7 @@ export const buildDSOpts = (envObjHere: TFoo): PostgresConnectionOptions => {
     username: envObjHere.EXPRESS_APP_DB_USERNAME,
     password: envObjHere.EXPRESS_APP_DB_PASSWORD,
     database: envObjHere.EXPRESS_APP_DB_NAME,
-    entities: [],
+    entities: [UserInfo],
     logging: true,
     synchronize: true,
     type: "postgres"
