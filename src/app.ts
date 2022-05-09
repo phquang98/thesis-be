@@ -1,12 +1,15 @@
 import "module-alias/register";
 import dotenv from "dotenv";
 
-import { envChecker, initialCxnDB, server } from "~/config";
+import { envChecker } from "~/config/env";
+import { initialCxnDB } from "~/config/datasource";
+import { server } from "~/config/server";
 
 dotenv.config(); // read key-value pairs from .env
 const port = process.env.EXPRESS_APP_PORT || 4000;
 
-envChecker();
+const env = envChecker();
+console.log("ENV", env);
 void initialCxnDB();
 
 server.listen(port, () => {

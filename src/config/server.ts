@@ -4,7 +4,8 @@ import express from "express";
 import session from "express-session";
 
 import { appRouter } from "~/route";
-import { appCORSOpts, appSessOpts } from "~/config";
+import { appCORSOpts } from "~/config/cors";
+import { appSessOpts } from "~/config/session";
 
 // --- Config + Initiate server ---
 export const server = express();

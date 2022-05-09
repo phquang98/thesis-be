@@ -3,7 +3,7 @@ import session, { SessionOptions } from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { Pool, PoolConfig } from "pg";
 
-import { envChecker } from "~/config";
+import { envChecker } from "~/config/env";
 
 dotenv.config();
 

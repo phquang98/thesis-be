@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
-import { envChecker } from "~/config";
+import { envChecker } from "~/config/env";
 
 const envObj = envChecker();
 type TFoo = typeof envObj;

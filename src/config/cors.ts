@@ -1,6 +1,6 @@
 import { CorsOptions } from "cors";
 
-import { envChecker } from "~/config";
+import { envChecker } from "~/config/env";
 
 const envObj = envChecker();
 
