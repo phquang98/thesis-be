@@ -1,4 +1,4 @@
-import { appDataSource } from "~/config/dataSource";
+import { appDataSource } from "~/config/dataSrc";
 
 import { UserInfo } from "~/resources/UserInfo/UserInfo.entity";
 import { TUInfo } from "~/types/business";
