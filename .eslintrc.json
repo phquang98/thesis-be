@@ -46,6 +46,7 @@
     "spaced-comment": "error",
     "no-magic-numbers": ["off"],
     "eqeqeq": "error",
+    "no-process-exit": "off", // deprecated in ESLint v7.0.0
     "node/no-missing-import": "off", // eslint-plugin-import check this + eslint-import-resolver-ts
     "node/no-unsupported-features/es-syntax": ["error", { "ignores": ["modules"] }],
     "node/no-unpublished-import": [

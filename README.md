@@ -5,7 +5,7 @@ Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
 ## Run
 
 - `npm i`
-- OR `npm i pg reflect-metadata typeorm uuid express-session connect-pg-simple` + `npm i -D @types/pg @types/express-session @types/connect-pg-simple @types/uuid`
+- OR `npm i pg reflect-metadata typeorm uuid express-session connect-pg-simple envalid` + `npm i -D @types/pg @types/express-session @types/connect-pg-simple @types/uuid`
 - create an `.env` file
   - manually create `session` table in the database
 
