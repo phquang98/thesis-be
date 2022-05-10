@@ -33,6 +33,9 @@ Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
   - not sure if correct
 - [why not put session id in query params (and maybe also path variables ?)](https://stackoverflow.com/a/35090676/8834000)
 - config folder: do not allow "" as acceptable value -> || not ??
+- 11/05/2022
+  - `/resource.repo.ts`: why `return await` -> benefit stack trace ?
+  - updates TypeORM to use newer version: use DataSource, and TypeORM repo now return record | null
 
 ## Critics
 

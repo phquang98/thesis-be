@@ -65,6 +65,7 @@
     "@typescript-eslint/no-unnecessary-condition": ["error", { "allowConstantLoopConditions": true }],
     "@typescript-eslint/consistent-type-assertions": ["error", { "assertionStyle": "never" }],
     "@typescript-eslint/no-misused-promises": ["off"],
+    "@typescript-eslint/no-unsafe-assignment": ["off"],
     "@typescript-eslint/naming-convention": [
       "warn",
       {

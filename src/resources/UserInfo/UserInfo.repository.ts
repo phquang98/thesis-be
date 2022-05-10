@@ -5,18 +5,23 @@ import { TUInfo } from "~/types/business";
 
 const uInfoTypeORMRepo = appDataSource.getRepository(UserInfo);
 
-const findOneRecord = async (userIdHere: string): Promise<UserInfo | null> => {
+const findOneRecordById = async (userIdHere: string): Promise<UserInfo | null> => {
   return await uInfoTypeORMRepo.findOne({ where: { id: userIdHere } });
 };
 
-const createOrSaveOneRecord = async (uInfoData: TUInfo): Promise<UserInfo | null> => {
+const findOneRecordByEmail = async (userEmailHere: string): Promise<UserInfo | null> => {
+  return await uInfoTypeORMRepo.findOne({ where: { email: userEmailHere } });
+};
+
+const createAndSaveOneRecord = async (uInfoData: TUInfo): Promise<UserInfo> => {
   const tmpInstance = uInfoTypeORMRepo.create(uInfoData);
   return await uInfoTypeORMRepo.save(tmpInstance);
 };
 
 export const uInfoRepo = {
-  findOneRecord,
-  createOrSaveOneRecord
+  findOneRecordById,
+  findOneRecordByEmail,
+  createAndSaveOneRecord
 };
 
 // why return await: benefits stack trace ?

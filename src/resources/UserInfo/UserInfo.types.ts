@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 
-import { BaseReqQuery, BaseResBody, BaseResLocals } from "~/types/system";
+import { TBaseReqQuery, TBaseResBody, TBaseResLocals } from "~/types/system";
 
 // --- Entity typings ---
 
@@ -20,7 +20,7 @@ type UInfoReqParams = {
   userIdHere: string;
 };
 
-type UInfoResBody = BaseResBody & {
+type UInfoResBody = TBaseResBody & {
   serverData: Record<string, never> | TUInfo;
 };
 
@@ -32,6 +32,6 @@ export type TUInfoRequestHandler = RequestHandler<
   UInfoReqParams,
   UInfoResBody,
   UInfoReqBody,
-  BaseReqQuery,
-  BaseResLocals
+  TBaseReqQuery,
+  TBaseResLocals
 >;

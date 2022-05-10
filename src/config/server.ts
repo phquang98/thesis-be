@@ -6,6 +6,7 @@ import session from "express-session";
 import { appRouter } from "~/routes";
 import { appCORSOpts } from "~/config/cors";
 import { appSessOpts } from "~/config/session";
+import { errorHdlr } from "~/middlewares/errorHandler";
 
 // --- Config + Initiate server ---
 export const server = express();
@@ -19,3 +20,6 @@ server.use(session(appSessOpts));
 
 // --- Routing ---
 server.use(appRouter);
+
+// --- Error Handlers ---
+server.use(errorHdlr);

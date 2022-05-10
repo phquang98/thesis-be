@@ -1,12 +1,14 @@
 // import { RequestHandler } from "express";
 
-// export const simpleInterceptor = (controllerHere: RequestHandler): RequestHandler => {
+// import { errorHdlr } from "~/middlewares/errorHandler";
+
+// export const simpleInterceptor = <T = RequestHandler>(controllerHere: T): RequestHandler => {
 //   const interceptingHdlr: RequestHandler = (interceptingReq, interceptingRes, interceptingNext) => {
 //     try {
 //       const interceptedHdlr = controllerHere(interceptingReq, interceptingRes, interceptingNext);
 //       return interceptedHdlr;
 //     } catch (error) {
-//       return interceptingRes.status(400).json({ msg: "Something wrong!" });
+//       return errorHdlr(error, interceptingReq, interceptingRes, interceptingNext);
 //     }
 //   };
 //   return interceptingHdlr;
@@ -17,5 +19,5 @@
 // // wrap this outside a business controller
 // // - if controller succeeded, controllers runs normally
 // // - if controller failed, error handling in catch block will run
-// TODO: fix this
+// NOTE: too hard to implement
 export {};

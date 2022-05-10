@@ -4,17 +4,17 @@ import { UserInfo } from "~/resources/UserInfo/UserInfo.entity";
 
 @Entity("user_account")
 export class UserAccount extends BaseEntity {
-  @Column()
-  account_name: string;
+  @Column({ name: "account_name" })
+  accountName: string;
 
-  @Column()
-  account_pwd: string;
+  @Column({ name: "account_pwd" })
+  accountPwd: string;
 
-  @Column({ default: false })
-  is_admin: boolean;
+  @Column({ default: false, name: "is_admin" })
+  isAdmin: boolean;
 
-  @PrimaryColumn()
   @OneToOne(() => UserInfo)
   @JoinColumn({ name: "user_id" })
-  user_id: string;
+  @PrimaryColumn()
+  user_id: string; // NOTE: TypeORM bug, can't used userId with name user_id, will create 2 cols instead
 }

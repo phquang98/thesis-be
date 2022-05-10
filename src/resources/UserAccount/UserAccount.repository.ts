@@ -1,19 +1,28 @@
-// import { appDataSource } from "~/config/dataSource";
+import { appDataSource } from "~/config/dataSource";
 
-// import { UserAccount } from "~/resources/UserAccount/UserAccount.entity";
-// import { TUAcc } from "~/types/business";
+import { UserAccount } from "~/resources/UserAccount/UserAccount.entity";
+import { TUAcc } from "~/types/business";
 
-// const uAccTypeORMRepo = appDataSource.getRepository(UserAccount);
+const uAccTypeORMRepo = appDataSource.getRepository(UserAccount);
 
-// const createOrSaveOneRecord = async (uAccData: TUInfo): Promise<UserAccount | null> => {
-//   const tmpInstance = uInfoTypeORMRepo.create(uInfoData);
-//   return await uInfoTypeORMRepo.save(tmpInstance);
-// };
+// expect used in future, no use atm
+const findOneRecordById = async (userIdHere: string): Promise<UserAccount | null> => {
+  return await uAccTypeORMRepo.findOne({ where: { user_id: userIdHere } });
+};
 
-// export const uInfoRepo = {
-//   findOneRecord,
-//   createOrSaveOneRecord
-// };
+// used in login
+const findOneRecordByAccountName = async (userAccNameHere: string): Promise<UserAccount | null> => {
+  return await uAccTypeORMRepo.findOne({ where: { accountName: userAccNameHere } });
+};
 
-// // why return await: benefits stack trace ?
-export {};
+// used in /register
+const createAndSaveOneRecord = async (userAccData: TUAcc): Promise<UserAccount> => {
+  const tmpInstance = uAccTypeORMRepo.create(userAccData);
+  return await uAccTypeORMRepo.save(tmpInstance);
+};
+
+export const uAccRepo = {
+  findOneRecordById,
+  findOneRecordByAccountName,
+  createAndSaveOneRecord
+};
