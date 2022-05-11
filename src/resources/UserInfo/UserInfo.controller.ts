@@ -1,4 +1,3 @@
-import { nextTick } from "process";
 import { uInfoRepo } from "~/resources/UserInfo/UserInfo.repository";
 import { TUInfoRequestHandler } from "~/types/business";
 import { SimpleError, HttpStatusCode } from "~/utils";

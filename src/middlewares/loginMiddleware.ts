@@ -1,27 +1,30 @@
 import { uAccRepo } from "~/resources/UserAccount/UserAccount.repository";
 import { TReqHdlrLogin } from "~/types/system";
-import { HttpStatusCode } from "~/utils";
+import { HttpStatusCode, SimpleError } from "~/utils";
 
-export const loginHdlr: TReqHdlrLogin = async (req, res, _next) => {
+const affectedResource = "Login Middleware";
+
+export const loginHdlr: TReqHdlrLogin = async (req, res, next) => {
+  const { accountName, accountPwd } = req.body.clientData;
+
   try {
-    const { accountName, accountPwd } = req.body.clientData;
     const suspect = await uAccRepo.findOneRecordByAccountName(accountName);
-    if (suspect) {
-      return suspect.accountPwd === accountPwd
-        ? res.status(200).json({ statusCode: 200, message: "OK", affectedResource: "UserAccount" }) // TODO: fix this shit
-        : res.status(HttpStatusCode.BAD_REQUEST).json({
-            statusCode: HttpStatusCode.BAD_REQUEST,
-            message: "Wrong credentials!",
-            affectedResource: "UserAccount"
-          });
+    if (suspect && suspect.accountPwd === accountPwd) {
+      return res
+        .status(HttpStatusCode.OK)
+        .json({ message: "Login successful! FIX THISSSSSSSS", affectedResource, statusCode: HttpStatusCode.OK }); // TODO: next() -> createSessCtr
     }
-    return res.status(HttpStatusCode.BAD_REQUEST).json({
-      statusCode: HttpStatusCode.BAD_REQUEST,
-      message: "Credentials not existed!",
-      affectedResource: "Login Middleware"
-    });
+    return res
+      .status(HttpStatusCode.BAD_REQUEST)
+      .json({ message: "Wrong credentials!", affectedResource, statusCode: HttpStatusCode.BAD_REQUEST });
   } catch (error) {
-    throw new Error("Something wrong");
+    return next(
+      new SimpleError({
+        message: "Something wrong!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
   }
 };
 
