@@ -11,6 +11,9 @@ Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
 
 ## Explain
 
+- any results that is not positive will be returned as SimpleError instead of the Response.json
+  - the difference between SimpleError and Res.body is the `serverData` prop
+
 ## Notes
 
 - `express-session` will handles all the session stuff internally, pay attention to these

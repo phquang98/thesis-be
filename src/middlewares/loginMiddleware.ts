@@ -14,9 +14,9 @@ export const loginHdlr: TReqHdlrLogin = async (req, res, next) => {
         .status(HttpStatusCode.OK)
         .json({ message: "Login successful! FIX THISSSSSSSS", affectedResource, statusCode: HttpStatusCode.OK }); // TODO: next() -> createSessCtr
     }
-    return res
-      .status(HttpStatusCode.BAD_REQUEST)
-      .json({ message: "Wrong credentials!", affectedResource, statusCode: HttpStatusCode.BAD_REQUEST });
+    return next(
+      new SimpleError({ message: "Wrong credentials!", affectedResource, statusCode: HttpStatusCode.BAD_REQUEST })
+    );
   } catch (error) {
     return next(
       new SimpleError({

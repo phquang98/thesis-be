@@ -11,11 +11,13 @@ export const registerHdlr: TReqHdlrRegister = async (req, res, next) => {
   try {
     const suspect = await uInfoRepo.findOneRecordByEmail(clientData.email);
     if (suspect) {
-      return res.status(HttpStatusCode.BAD_REQUEST).json({
-        message: "Email already in used!",
-        affectedResource,
-        statusCode: HttpStatusCode.BAD_REQUEST
-      });
+      return next(
+        new SimpleError({
+          message: "Email already in used!",
+          affectedResource,
+          statusCode: HttpStatusCode.BAD_REQUEST
+        })
+      );
     }
     const [userInfoData, userAccData] = generateUser(clientData);
     await uInfoRepo.createAndSaveOneRecord(userInfoData); // this runs 1st cause FK

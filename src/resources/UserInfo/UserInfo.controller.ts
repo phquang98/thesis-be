@@ -19,26 +19,29 @@ export const readUserInfoCtr: TUInfoRequestHandler = async (req, res, next) => {
           serverData: suspect
         });
       }
-      const errCtx = new SimpleError({
-        message: "Failed get 1: Can't found record in DB based on provided id!",
-        affectedResource,
-        statusCode: HttpStatusCode.NOT_FOUND
-      });
-      return next(errCtx);
+      return next(
+        new SimpleError({
+          message: "Failed get 1: Can't found record in DB based on provided id!",
+          affectedResource,
+          statusCode: HttpStatusCode.NOT_FOUND
+        })
+      );
     }
-    const errCtx = new SimpleError({
-      message: "Failed get 2: User ID is missing in path variables!",
-      affectedResource,
-      statusCode: HttpStatusCode.BAD_REQUEST
-    });
-    return next(errCtx);
+    return next(
+      new SimpleError({
+        message: "Failed get 2: User ID is missing in path variables!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
   } catch (error) {
-    const errCtx = new SimpleError({
-      message: "Failed get 3: Something wrong!",
-      affectedResource,
-      statusCode: HttpStatusCode.BAD_REQUEST
-    });
-    return next(errCtx);
+    return next(
+      new SimpleError({
+        message: "Failed get 3: Something wrong!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
   }
 };
 
@@ -59,25 +62,28 @@ export const updateUserInfoCtr: TUInfoRequestHandler = async (req, res, next) =>
           serverData: queryRes
         });
       }
-      const errCtx = new SimpleError({
-        message: "Failed update 1: Can't found record in DB based on provided id!",
+      return next(
+        new SimpleError({
+          message: "Failed update 1: Can't found record in DB based on provided id!",
+          affectedResource,
+          statusCode: HttpStatusCode.BAD_REQUEST
+        })
+      );
+    }
+    return next(
+      new SimpleError({
+        message: "Failed update 2: Data in path variables and request body is mismatch or missing!",
         affectedResource,
         statusCode: HttpStatusCode.BAD_REQUEST
-      });
-      return next(errCtx);
-    }
-    const errCtx = new SimpleError({
-      message: "Failed update 2: Data in path variables and request body is mismatch or missing!",
-      affectedResource,
-      statusCode: HttpStatusCode.BAD_REQUEST
-    });
-    return next(errCtx);
+      })
+    );
   } catch (error) {
-    const errCtx = new SimpleError({
-      message: "Failed update 3: Something wrong!",
-      affectedResource,
-      statusCode: HttpStatusCode.BAD_REQUEST
-    });
-    return next(errCtx);
+    return next(
+      new SimpleError({
+        message: "Failed update 3: Something wrong!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
   }
 };
