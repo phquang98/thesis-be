@@ -8,16 +8,16 @@ export const loginHdlr: TReqHdlrLogin = async (req, res, _next) => {
     const suspect = await uAccRepo.findOneRecordByAccountName(accountName);
     if (suspect) {
       return suspect.accountPwd === accountPwd
-        ? res.status(200).json({ statusCode: 200, msg: "OK", affectedResource: "UserAccount" }) // TODO: fix this shit
+        ? res.status(200).json({ statusCode: 200, message: "OK", affectedResource: "UserAccount" }) // TODO: fix this shit
         : res.status(HttpStatusCode.BAD_REQUEST).json({
             statusCode: HttpStatusCode.BAD_REQUEST,
-            msg: "Wrong credentials!",
+            message: "Wrong credentials!",
             affectedResource: "UserAccount"
           });
     }
     return res.status(HttpStatusCode.BAD_REQUEST).json({
       statusCode: HttpStatusCode.BAD_REQUEST,
-      msg: "Credentials not existed!",
+      message: "Credentials not existed!",
       affectedResource: "Login Middleware"
     });
   } catch (error) {

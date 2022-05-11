@@ -7,7 +7,7 @@ import { TUAcc, TUInfo } from "~/types/business";
 
 export type TBaseResBody = {
   statusCode: HttpStatusCode;
-  msg: string;
+  message: string;
   affectedResource: string;
 };
 
@@ -17,7 +17,6 @@ export type TBaseResLocals = Record<string, unknown>;
 
 // --- Specific Middlewares Typings ---
 
-// TODO: check if this works out, delete if unused
 type ReqBodyRegister = {
   clientData: Pick<TUAcc, "accountName" | "accountPwd"> & Pick<TUInfo, "email" | "name">;
 };

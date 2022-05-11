@@ -1,8 +1,12 @@
+import { nextTick } from "process";
 import { uInfoRepo } from "~/resources/UserInfo/UserInfo.repository";
 import { TUInfoRequestHandler } from "~/types/business";
-import { BaseError, HttpStatusCode } from "~/utils";
+import { SimpleError, HttpStatusCode } from "~/utils";
 
-export const readUserInfoCtr: TUInfoRequestHandler = async (req, res, _next) => {
+const affectedResource = "UserInfo";
+
+// FE -> userId -> find UserInfo
+export const readUserInfoCtr: TUInfoRequestHandler = async (req, res, next) => {
   const { userIdHere } = req.params;
 
   try {
@@ -10,22 +14,37 @@ export const readUserInfoCtr: TUInfoRequestHandler = async (req, res, _next) => 
       const suspect = await uInfoRepo.findOneRecordById(userIdHere);
       if (suspect) {
         return res.status(HttpStatusCode.OK).json({
+          message: "Found one!",
+          affectedResource,
           statusCode: HttpStatusCode.OK,
-          msg: "Found one!",
-          affectedResource: "user_info",
           serverData: suspect
         });
       }
-      const customErr = new BaseError({ message: "Khong thay", statusCode: 400 });
-      _next(customErr);
+      const errCtx = new SimpleError({
+        message: "Failed get 1: Can't found record in DB based on provided id!",
+        affectedResource,
+        statusCode: HttpStatusCode.NOT_FOUND
+      });
+      return next(errCtx);
     }
+    const errCtx = new SimpleError({
+      message: "Failed get 2: User ID is missing in path variables!",
+      affectedResource,
+      statusCode: HttpStatusCode.BAD_REQUEST
+    });
+    return next(errCtx);
   } catch (error) {
-    const customErr = new BaseError({ message: "Co van de", statusCode: 400 });
-    _next(customErr);
+    const errCtx = new SimpleError({
+      message: "Failed get 3: Something wrong!",
+      affectedResource,
+      statusCode: HttpStatusCode.BAD_REQUEST
+    });
+    return next(errCtx);
   }
 };
 
-export const updateUserInfoCtr: TUInfoRequestHandler = async (req, res, _next) => {
+// FE -> userId + req.body -> find -> OK -> save
+export const updateUserInfoCtr: TUInfoRequestHandler = async (req, res, next) => {
   const { clientData } = req.body;
   const { userIdHere } = req.params;
 
@@ -35,26 +54,31 @@ export const updateUserInfoCtr: TUInfoRequestHandler = async (req, res, _next) =
       if (suspect) {
         const queryRes = await uInfoRepo.createAndSaveOneRecord(clientData);
         return res.status(HttpStatusCode.OK).json({
+          message: "Put one",
+          affectedResource,
           statusCode: HttpStatusCode.OK,
-          msg: "Put one",
-          affectedResource: "UserInfo",
           serverData: queryRes
         });
       }
-      // return res.status(HTTPStatusCode.NOT_FOUND).json({
-      //   statusCode: HTTPStatusCode.NOT_FOUND,
-      //   msg: "Put failed 1: not found",
-      //   affectedResource: "user_info",
-      //   serverData: {}
-      // });
+      const errCtx = new SimpleError({
+        message: "Failed update 1: Can't found record in DB based on provided id!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      });
+      return next(errCtx);
     }
-    return res.status(HttpStatusCode.BAD_REQUEST).json({
-      statusCode: HttpStatusCode.BAD_REQUEST,
-      msg: "Put failed 2: req-params And/or req-body missing/malformed or userId mismatched!",
-      affectedResource: "UserInfo",
-      serverData: {}
+    const errCtx = new SimpleError({
+      message: "Failed update 2: Data in path variables and request body is mismatch or missing!",
+      affectedResource,
+      statusCode: HttpStatusCode.BAD_REQUEST
     });
+    return next(errCtx);
   } catch (error) {
-    throw new Error("Something wrong!");
+    const errCtx = new SimpleError({
+      message: "Failed update 3: Something wrong!",
+      affectedResource,
+      statusCode: HttpStatusCode.BAD_REQUEST
+    });
+    return next(errCtx);
   }
 };

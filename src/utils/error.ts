@@ -1,12 +1,15 @@
 import { TBaseErrorData } from "~/types/system";
+import { HttpStatusCode } from "~/utils/constants";
 
-export class BaseError extends Error {
-  public readonly statusCode: number;
+export class SimpleError extends Error {
+  public readonly affectedResource: string;
+  public readonly statusCode: HttpStatusCode;
 
-  constructor({ message, statusCode }: TBaseErrorData) {
+  constructor({ message, affectedResource, statusCode }: TBaseErrorData) {
     super(message);
     this.name = this.constructor.name;
     this.message = message;
+    this.affectedResource = affectedResource;
     this.statusCode = statusCode;
   }
 }

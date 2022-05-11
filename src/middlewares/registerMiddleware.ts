@@ -1,20 +1,18 @@
 import { uAccRepo } from "~/resources/UserAccount/UserAccount.repository";
 import { uInfoRepo } from "~/resources/UserInfo/UserInfo.repository";
 import { TReqHdlrRegister } from "~/types/system";
-import { BaseError, HttpStatusCode, generateUser } from "~/utils";
+import { SimpleError, HttpStatusCode, generateUser } from "~/utils";
 
 export const registerHdlr: TReqHdlrRegister = async (req, res, _next) => {
   const { clientData } = req.body;
-  console.log("asd", clientData);
 
   try {
     // const suspect = await uInfoTypeORMRepo.findOne({ where: { email: clientData.email } });
     const suspect = await uInfoRepo.findOneRecordByEmail(clientData.email);
-    console.log("suspect", suspect);
     if (suspect) {
       return res.status(HttpStatusCode.BAD_REQUEST).json({
         statusCode: HttpStatusCode.BAD_REQUEST,
-        msg: "Email already in used!",
+        message: "Email already in used!",
         affectedResource: "UserAccount, UserInfo"
       });
     }
@@ -23,7 +21,7 @@ export const registerHdlr: TReqHdlrRegister = async (req, res, _next) => {
     await uAccRepo.createAndSaveOneRecord(userAccData);
     return res.status(HttpStatusCode.CREATED).json({
       statusCode: HttpStatusCode.CREATED,
-      msg: "User account created.",
+      message: "User account created.",
       affectedResource: "UserAccount, UserInfo"
     });
   } catch (err) {

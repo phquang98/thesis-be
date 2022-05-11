@@ -1,6 +1,6 @@
 import express from "express";
 
-import { readUserInfoCtr } from "~/resources/UserInfo/UserInfo.controller";
+import { readUserInfoCtr, updateUserInfoCtr } from "~/resources/UserInfo/UserInfo.controller";
 
 // import { authN, authZ } from "../middleware";
 
@@ -8,7 +8,7 @@ const userInfoRouter = express.Router();
 
 userInfoRouter.post("/"); // internally only
 userInfoRouter.get("/:userIdHere", readUserInfoCtr);
-userInfoRouter.put("/:userIdHere");
+userInfoRouter.put("/:userIdHere", updateUserInfoCtr);
 
 // userInfoRouter.get("/:userIdHere", [authN, authZ], readUInfo);
 // userInfoRouter.put("/:userIdHere", [authN, authZ], updateUInfo);
