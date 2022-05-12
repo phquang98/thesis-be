@@ -1,7 +1,7 @@
 import { appDataSource } from "~/config/dataSource";
-import { BankAccount } from "~/features/BankAccount/BankAccount.entity";
-import { TBAcc } from "~/types/business";
+import { BankAccount } from "~/entities";
 import { generateBankAccountData } from "~/utils";
+import { TBAcc } from "~/types/business";
 
 const bAccTypeORMRepo = appDataSource.getRepository(BankAccount);
 

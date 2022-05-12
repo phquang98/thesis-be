@@ -1,10 +1,8 @@
 import { DataSource } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
+import { UserInfo, UserAccount, BankAccount } from "~/entities";
 import { envChecker } from "~/config/env";
-import { BankAccount } from "~/features/BankAccount/BankAccount.entity";
-import { UserAccount } from "~/features/UserAccount/UserAccount.entity";
-import { UserInfo } from "~/features/UserInfo/UserInfo.entity";
 
 const envObj = envChecker();
 type TFoo = typeof envObj;
