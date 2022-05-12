@@ -1,4 +1,4 @@
-import { bAccRepo } from "~/resources/BankAccount/BankAccount.repository";
+import { bAccRepo } from "~/features/BankAccount/BankAccount.repository";
 import { TBAccRequestHandler } from "~/types/business";
 import { HttpStatusCode, SimpleError } from "~/utils";
 

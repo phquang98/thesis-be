@@ -1,6 +1,6 @@
 import express from "express";
 
-import { createBAccCtr, deleteBAccCtr, populate, readBAccCtr } from "~/resources/BankAccount/BankAccount.controller";
+import { createBAccCtr, deleteBAccCtr, populate, readBAccCtr } from "~/features/BankAccount/BankAccount.controller";
 
 const bankAccountRouter = express.Router();
 

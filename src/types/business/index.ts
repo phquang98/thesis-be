@@ -1,4 +1,4 @@
 export * from "~/types/business/base";
-export * from "~/resources/UserInfo/UserInfo.types";
-export * from "~/resources/UserAccount/UserAccount.types";
-export * from "~/resources/BankAccount/BankAccount.types";
+export * from "~/features/UserInfo/UserInfo.types";
+export * from "~/features/UserAccount/UserAccount.types";
+export * from "~/features/BankAccount/BankAccount.types";

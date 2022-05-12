@@ -1,4 +1,4 @@
-import { uInfoRepo } from "~/resources/UserInfo/UserInfo.repository";
+import { uInfoRepo } from "~/features/UserInfo/UserInfo.repository";
 import { TUInfoRequestHandler } from "~/types/business";
 import { SimpleError, HttpStatusCode } from "~/utils";
 

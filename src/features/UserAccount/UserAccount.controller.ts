@@ -1,4 +1,4 @@
-import { uAccRepo } from "~/resources/UserAccount/UserAccount.repository";
+import { uAccRepo } from "~/features/UserAccount/UserAccount.repository";
 import { TUAccController } from "~/types/business";
 import { SimpleError } from "~/utils";
 

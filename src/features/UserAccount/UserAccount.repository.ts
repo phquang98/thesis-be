@@ -1,6 +1,6 @@
 import { appDataSource } from "~/config/dataSource";
 
-import { UserAccount } from "~/resources/UserAccount/UserAccount.entity";
+import { UserAccount } from "~/features/UserAccount/UserAccount.entity";
 import { TUAcc } from "~/types/business";
 
 const uAccTypeORMRepo = appDataSource.getRepository(UserAccount);

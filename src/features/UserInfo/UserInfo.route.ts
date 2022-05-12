@@ -1,6 +1,6 @@
 import express from "express";
 
-import { readUserInfoCtr, updateUserInfoCtr } from "~/resources/UserInfo/UserInfo.controller";
+import { readUserInfoCtr, updateUserInfoCtr } from "~/features/UserInfo/UserInfo.controller";
 
 // import { authN, authZ } from "../middleware";
 

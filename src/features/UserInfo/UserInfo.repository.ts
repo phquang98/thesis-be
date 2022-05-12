@@ -1,6 +1,6 @@
 import { appDataSource } from "~/config/dataSource";
 
-import { UserInfo } from "~/resources/UserInfo/UserInfo.entity";
+import { UserInfo } from "~/features/UserInfo/UserInfo.entity";
 import { TUInfo } from "~/types/business";
 
 const uInfoTypeORMRepo = appDataSource.getRepository(UserInfo);

@@ -1,5 +1,5 @@
 import { appDataSource } from "~/config/dataSource";
-import { BankAccount } from "~/resources/BankAccount/BankAccount.entity";
+import { BankAccount } from "~/features/BankAccount/BankAccount.entity";
 import { TBAcc } from "~/types/business";
 import { generateBankAccountData } from "~/utils";
 

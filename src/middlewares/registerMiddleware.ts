@@ -1,5 +1,5 @@
-import { uAccRepo } from "~/resources/UserAccount/UserAccount.repository";
-import { uInfoRepo } from "~/resources/UserInfo/UserInfo.repository";
+import { uAccRepo } from "~/features/UserAccount/UserAccount.repository";
+import { uInfoRepo } from "~/features/UserInfo/UserInfo.repository";
 import { TReqHdlrRegister } from "~/types/system";
 import { SimpleError, HttpStatusCode, generateUser } from "~/utils";
 

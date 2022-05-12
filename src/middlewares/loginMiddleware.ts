@@ -1,4 +1,4 @@
-import { uAccRepo } from "~/resources/UserAccount/UserAccount.repository";
+import { uAccRepo } from "~/features/UserAccount/UserAccount.repository";
 import { TReqHdlrLogin } from "~/types/system";
 import { HttpStatusCode, SimpleError } from "~/utils";
 
