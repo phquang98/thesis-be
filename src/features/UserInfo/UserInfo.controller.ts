@@ -2,7 +2,7 @@ import { uInfoRepo } from "~/features/UserInfo/UserInfo.repository";
 import { TUInfoRequestHandler } from "~/types/business";
 import { SimpleError, HttpStatusCode } from "~/utils";
 
-const affectedResource = "UserInfo";
+const affectedResource = "User Information"; // NOTE: maybe should called this profile instead
 
 // FE -> userId -> find UserInfo
 export const readUserInfoCtr: TUInfoRequestHandler = async (req, res, next) => {

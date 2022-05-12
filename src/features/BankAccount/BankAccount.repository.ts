@@ -23,6 +23,16 @@ const deleteOneRecord = async (bAccRecordHere: BankAccount): Promise<BankAccount
   return await bAccTypeORMRepo.remove(bAccRecordHere);
 };
 
+const addFundsToOneBAcc = async (bAccRecordHere: BankAccount, amount: number): Promise<BankAccount> => {
+  return await bAccTypeORMRepo.save({ ...bAccRecordHere, balance: bAccRecordHere.balance + amount });
+};
+
+const deductFundsToOneBAcc = async (bAccRecordHere: BankAccount, amount: number): Promise<BankAccount> => {
+  return await bAccTypeORMRepo.save({ ...bAccRecordHere, balance: bAccRecordHere.balance - amount });
+};
+
+// --- Populate ---
+
 // TODO: maybe put this somewhere else
 const simplePopulate = async (): Promise<BankAccount[]> => {
   const workData: Omit<TBAcc, "createdAt"> = {
@@ -50,6 +60,8 @@ export const bAccRepo = {
   findOneRecordById,
   createAndSaveOneRecord,
   deleteOneRecord,
+  addFundsToOneBAcc,
+  deductFundsToOneBAcc,
   simplePopulate
 };
 

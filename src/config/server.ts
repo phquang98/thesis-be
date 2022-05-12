@@ -7,6 +7,7 @@ import { appRouter } from "~/routes";
 import { appCORSOpts } from "~/config/cors";
 import { appSessOpts } from "~/config/session";
 import { errorHdlr } from "~/middlewares/errorHandler";
+import { rogueHdlr } from "~/middlewares/rogueMiddleware";
 
 // --- Config + Initiate server ---
 export const server = express();
@@ -20,9 +21,7 @@ server.use(session(appSessOpts));
 
 // --- Routing ---
 server.use(appRouter);
-// server.all("*", (req, res, next) => {
-//   console.log("wrong");
-// });
+server.use(rogueHdlr);
 
 // --- Error Handlers ---
 server.use(errorHdlr);

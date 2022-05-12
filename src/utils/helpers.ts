@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { v4 as uuidv4 } from "uuid";
+import { BankAccount } from "~/entities";
 
-import { TBAcc, TUAcc, TUInfo } from "~/types/business";
+import { TBAcc, TFinTransaction, TUAcc, TUInfo } from "~/types/business";
 
 // --- BankAccount Generation ---
 
@@ -47,20 +48,19 @@ const generateSWIFTCode = (): string => {
 
 // --- Transaction Generation ---
 
-// // TODO: rewrite this arg -> obj using custom types
-// export const generateFinTransaction = (
-//   senderIDHere: string,
-//   receiverIDHere: string,
-//   amount: number
-// ): Omit<TFinTransaction, "transacted_at"> => {
-//   const tmp: Omit<TFinTransaction, "transacted_at"> = {
-//     id: uuidv4(),
-//     sender_baccid: senderIDHere,
-//     receiver_baccid: receiverIDHere,
-//     amount
-//   };
-//   return tmp;
-// };
+export const generateFinTransaction = (
+  amount: number,
+  receiverIDHere: string,
+  senderIDHere: string
+): Omit<TFinTransaction, "transactedAt"> => {
+  const tmp: Omit<TFinTransaction, "transactedAt"> = {
+    id: uuidv4(),
+    amount,
+    receiverBAccId: receiverIDHere,
+    senderBAccId: senderIDHere
+  };
+  return tmp;
+};
 
 // --- UserInfo Generation ---
 
@@ -89,4 +89,11 @@ export const generateUser = (
     user_id: tmpOne.id
   };
   return [tmpOne, tmpTwo];
+};
+
+// --- Helper Functions ---
+
+// check if account have balance larger than amount to be proceeded
+export const isExceed = (bAccHere: BankAccount, amount: number): boolean => {
+  return bAccHere.balance >= amount;
 };

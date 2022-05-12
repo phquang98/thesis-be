@@ -13,8 +13,9 @@ Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
 
 - any results that is not positive will be returned as SimpleError instead of the Response.json
   - the difference between SimpleError and Res.body is the `serverData` prop
-- why not put `entity` under `features`
-  - cause 1TM, MTM, 1T1 relationship
+- why not put `entity` under `features`: cause 1TM, MTM, 1T1 relationship
+- why use `findBy` and `findOneBy`: cause only using `where` props, if use any others -> use `find`, etc
+- [Entities should have name is DB lowercase](https://stackoverflow.com/a/55297938/8834000)
 
 ## Notes
 
@@ -23,8 +24,6 @@ Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
   - `express-session` will do below (you don't need to manually write code for those)
     - auto extract the Cookie header containing sid when receiving Request containing header Cookie
     - auto parse sid -> auto send it to Client
-- [CHANGE ALL DATABASE NAME BACK TO LOWERCASE](https://stackoverflow.com/a/55297938/8834000)
-- WHERE OR -> pass an array or perform a QueryBuilder
 - choose `validator` + write raw validate + sanitize middlewares cause
   - ez understand
   - don't have any opinion on other libs (`class-validator` combo with TypeORM + `express-validator` as using Express)
@@ -32,7 +31,6 @@ Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
   - <https://stackoverflow.com/a/55850291/8834000>
   - and wtf is `formats[number]` ? what is `[number]` ?
 - Cookie flag ~ Key-Pair Cookie ~ Key-Value Cookie in HTTP Header
-- now using older version of TypeORM, they update to DataSource and deprecated createCXN, care when use
 - thinking about using resource params as sid or user_id, choose user_id for simplicity, but read somewhere this is bad design
 - by default, every request to the server will have a sessionId (cause of `app.use(session())`, notices global scope/no specific routes); but only sessionId that saved inside the `session` table is what matters
   - not sure if correct
@@ -44,5 +42,5 @@ Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
 
 ## Critics
 
-- [File structure is functionality-based aka not good](https://github.com/goldbergyoni/nodebestpractices/blob/master/sections/projectstructre/breakintcomponents.md)
-  - Arguments: simple application atm
+- [File structure should be functionality-based](https://github.com/goldbergyoni/nodebestpractices/blob/master/sections/projectstructre/breakintcomponents.md)
+  - simple implementation of N Layer Architecture
