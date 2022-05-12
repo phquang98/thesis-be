@@ -1,13 +1,13 @@
 import express from "express";
 
+import { createBAccCtr, deleteBAccCtr, populate, readBAccCtr } from "~/resources/BankAccount/BankAccount.controller";
+
 const bankAccountRouter = express.Router();
 
-bankAccountRouter.post("/populate");
+bankAccountRouter.post("/populate", populate);
 
-bankAccountRouter.post("/");
-bankAccountRouter.get("/:bAccIdHere");
-// bankAccountRouter.delete("/:bAccIdHere", deleteBAccount);
-
-// --- Admin workBAcc and spendBAcc ---
+bankAccountRouter.post("/", createBAccCtr);
+bankAccountRouter.get("/:bAccIdHere", readBAccCtr);
+bankAccountRouter.delete("/:bAccIdHere", deleteBAccCtr);
 
 export { bankAccountRouter };

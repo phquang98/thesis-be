@@ -1,83 +1,125 @@
-// import { bAccRepo } from "~/resources/BankAccount/BankAccount.repository";
-// import { TBAccRequestHandler } from "~/types/business";
-// import { SimpleError, HttpStatusCode } from "~/utils";
+import { bAccRepo } from "~/resources/BankAccount/BankAccount.repository";
+import { TBAccRequestHandler } from "~/types/business";
+import { HttpStatusCode, SimpleError } from "~/utils";
 
-// const affectedResource = "BankAccount";
+const affectedResource = "Bank Account";
 
-// // FE -> userId -> find UserInfo
-// export const readBAccCtr: TBAccRequestHandler = async (req, res, next) => {
-//   const { bAccIdHere } = req.params;
+// if id used -> no (only 1) -> else yes
+export const createBAccCtr: TBAccRequestHandler = async (req, res, next) => {
+  const { clientData } = req.body;
 
-//   try {
-//     if (bAccIdHere) {
-//       const suspect = await bAccRepo.findOneRecordById(bAccIdHere);
-//       if (suspect) {
-//         return res.status(HttpStatusCode.OK).json({
-//           message: "Found one!",
-//           affectedResource,
-//           statusCode: HttpStatusCode.OK,
-//           serverData: suspect
-//         });
-//       }
-//       const errCtx = new SimpleError({
-//         message: "Failed get 1: Can't found record in DB based on provided id!",
-//         affectedResource,
-//         statusCode: HttpStatusCode.NOT_FOUND
-//       });
-//       return next(errCtx);
-//     }
-//     const errCtx = new SimpleError({
-//       message: "Failed get 2: User ID is missing in path variables!",
-//       affectedResource,
-//       statusCode: HttpStatusCode.BAD_REQUEST
-//     });
-//     return next(errCtx);
-//   } catch (error) {
-//     const errCtx = new SimpleError({
-//       message: "Failed get 3: Something wrong!",
-//       affectedResource,
-//       statusCode: HttpStatusCode.BAD_REQUEST
-//     });
-//     return next(errCtx);
-//   }
-// };
+  try {
+    const suspect = await bAccRepo.findOneRecordByUserId(clientData.userId);
+    if (suspect) {
+      return next(
+        new SimpleError({
+          message: "An User can only have one Bank Account!",
+          affectedResource,
+          statusCode: HttpStatusCode.BAD_REQUEST
+        })
+      );
+    }
+    const queryResult = await bAccRepo.createAndSaveOneRecord(clientData.userId);
+    return res.status(HttpStatusCode.CREATED).json({
+      message: "Bank Account created!",
+      affectedResource,
+      statusCode: HttpStatusCode.CREATED,
+      serverData: queryResult
+    });
+  } catch (error) {
+    return next(
+      new SimpleError({
+        message: "Something wrong!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
+  }
+};
 
-// // FE -> userId + req.body -> find -> OK -> save
-// export const updateUserInfoCtr: TUInfoRequestHandler = async (req, res, next) => {
-//   const { clientData } = req.body;
-//   const { userIdHere } = req.params;
+export const readBAccCtr: TBAccRequestHandler = async (req, res, next) => {
+  const { bAccIdHere } = req.params;
 
-//   try {
-//     if (userIdHere === clientData.id) {
-//       const suspect = await uInfoRepo.findOneRecordById(userIdHere);
-//       if (suspect) {
-//         const queryRes = await uInfoRepo.createAndSaveOneRecord(clientData);
-//         return res.status(HttpStatusCode.OK).json({
-//           message: "Put one",
-//           affectedResource,
-//           statusCode: HttpStatusCode.OK,
-//           serverData: queryRes
-//         });
-//       }
-//       const errCtx = new SimpleError({
-//         message: "Failed update 1: Can't found record in DB based on provided id!",
-//         affectedResource,
-//         statusCode: HttpStatusCode.BAD_REQUEST
-//       });
-//       return next(errCtx);
-//     }
-//     const errCtx = new SimpleError({
-//       message: "Failed update 2: Data in path variables and request body is mismatch or missing!",
-//       affectedResource,
-//       statusCode: HttpStatusCode.BAD_REQUEST
-//     });
-//     return next(errCtx);
-//   } catch (error) {
-//     const errCtx = new SimpleError({
-//       message: "Failed update 3: Something wrong!",
-//       affectedResource,
-//       statusCode: HttpStatusCode.BAD_REQUEST
-//     });
-//     return next(errCtx);
-//   }
-// };
+  try {
+    const suspect = await bAccRepo.findOneRecordById(bAccIdHere);
+    if (suspect) {
+      return res.status(HttpStatusCode.OK).json({
+        message: "Bank Account got!",
+        affectedResource,
+        statusCode: HttpStatusCode.OK,
+        serverData: suspect
+      });
+    }
+    return next(
+      new SimpleError({
+        message: "Failed get 1: Can't found record in DB based on provided id!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
+  } catch (error) {
+    return next(
+      new SimpleError({
+        message: "Something wrong!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
+  }
+};
+
+export const deleteBAccCtr: TBAccRequestHandler = async (req, res, next) => {
+  const { bAccIdHere } = req.params;
+
+  try {
+    const suspect = await bAccRepo.findOneRecordById(bAccIdHere);
+
+    if (suspect) {
+      const queryResult = await bAccRepo.deleteOneRecord(suspect);
+      return res.status(HttpStatusCode.OK).json({
+        message: "Bank Account deleted!",
+        affectedResource,
+        statusCode: HttpStatusCode.OK,
+        serverData: queryResult
+      });
+    }
+    return next(
+      new SimpleError({
+        message: "Failed delete 1: Can't found record in DB based on provided id!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
+  } catch (error) {
+    return next(
+      new SimpleError({
+        message: "Something wrong!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
+  }
+};
+
+// --- Populate ---
+
+// TODO: move this to /migration instead
+export const populate: TBAccRequestHandler = async (req, res, next) => {
+  try {
+    await bAccRepo.simplePopulate();
+    return res.status(HttpStatusCode.CREATED).json({
+      message: "Populate OK! A working account and a spending account is created!",
+      affectedResource,
+      statusCode: HttpStatusCode.CREATED,
+      serverData: {}
+    });
+  } catch (error) {
+    return next(
+      new SimpleError({
+        message: "Something wrong!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
+  }
+};

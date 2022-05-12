@@ -20,6 +20,9 @@ server.use(session(appSessOpts));
 
 // --- Routing ---
 server.use(appRouter);
+// server.all("*", (req, res, next) => {
+//   console.log("wrong");
+// });
 
 // --- Error Handlers ---
 server.use(errorHdlr);

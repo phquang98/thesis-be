@@ -13,6 +13,8 @@ Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
 
 - any results that is not positive will be returned as SimpleError instead of the Response.json
   - the difference between SimpleError and Res.body is the `serverData` prop
+- why not put `entity` under `features`
+  - cause 1TM, MTM, 1T1 relationship
 
 ## Notes
 
