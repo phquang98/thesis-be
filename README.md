@@ -5,7 +5,7 @@ Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
 ## Run
 
 - `npm i`
-- OR `npm i pg reflect-metadata typeorm uuid express-session connect-pg-simple envalid` + `npm i -D @types/pg @types/express-session @types/connect-pg-simple @types/uuid`
+- OR `npm i pg reflect-metadata typeorm uuid express-session connect-pg-simple envalid joi` + `npm i -D @types/pg @types/express-session @types/connect-pg-simple @types/uuid`
 - create an `.env` file
   - manually create `session` table in the database
 
@@ -39,6 +39,10 @@ Tech: Express + TS + PostgreSQL + TypeORM + session-based auth
 - 11/05/2022
   - `/resource.repo.ts`: why `return await` -> benefit stack trace ?
   - updates TypeORM to use newer version: use DataSource, and TypeORM repo now return record | null
+- 14/05/2022
+  - may need to change stuff about `use()` and `all()`
+  - <https://stackoverflow.com/a/17124938/8834000>
+  - <https://stackoverflow.com/a/14126090/8834000>
 
 ## Critics
 
