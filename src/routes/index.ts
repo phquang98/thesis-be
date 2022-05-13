@@ -1,6 +1,7 @@
 import express from "express";
 
 import { healthCheckHdlr, loginHdlr, registerHdlr } from "~/middlewares";
+import { createSess, deleteSess, reloadSess } from "~/middlewares/session/session.middleware";
 import { businessRouter } from "~/routes/business";
 
 const appRouter = express.Router();
@@ -8,10 +9,9 @@ const appRouter = express.Router();
 appRouter.get("/healthcheck", healthCheckHdlr);
 
 appRouter.post("/register", registerHdlr);
-appRouter.post("/login", loginHdlr);
-// appRouter.post("/login", loginHandler, createSession);
-// appRouter.post("/:userIdHere/reload", reloadSession);
-// appRouter.post("/:userIdHere/logout", deleteSession);
+appRouter.post("/login", loginHdlr, createSess);
+appRouter.post("/:userIdHere/reload", reloadSess);
+appRouter.post("/:userIdHere/logout", deleteSess);
 
 appRouter.use("/api", businessRouter);
 
