@@ -21,7 +21,7 @@ server.use(session(appSessOpts));
 
 // --- Routing ---
 server.use(appRouter);
-server.use(rogueHdlr);
+server.use(rogueHdlr); // server.all ?
 
 // --- Error Handlers ---
 server.use(errorHdlr);

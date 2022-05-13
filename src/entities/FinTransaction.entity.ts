@@ -7,8 +7,9 @@ export class FinTransaction extends BaseEntity {
   @PrimaryColumn()
   id: string;
 
-  @ManyToOne<BankAccount>(() => BankAccount, (bAccInstnc) => bAccInstnc.id, { onDelete: "CASCADE" })
-  @JoinColumn({ name: "sender_baccid" })
+  // @ManyToOne<BankAccount>(() => BankAccount, (bAccInstnc) => bAccInstnc.id, { onDelete: "CASCADE" })
+  // @JoinColumn({ name: "sender_baccid" })
+  @Column({ name: "sender_baccid" })
   senderBAccId: string;
 
   @Column({ name: "receiver_baccid" })

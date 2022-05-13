@@ -7,9 +7,9 @@ import { userInfoRouter } from "~/features/UserInfo/UserInfo.route";
 
 const businessRouter = express.Router();
 
-businessRouter.use("/userinfo", userInfoRouter);
-businessRouter.use("/account", userAccountRouter);
 businessRouter.use("/bankAccount", bankAccountRouter);
 businessRouter.use("/transact", finTransactionRouter);
+businessRouter.use("/account", userAccountRouter); // not used atm
+businessRouter.use("/userinfo", userInfoRouter);
 
 export { businessRouter };

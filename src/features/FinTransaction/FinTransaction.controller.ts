@@ -46,14 +46,14 @@ export const readBankStatementCtr: TFinTransactionRequestHandler = async (req, r
 
       const senderClt = await finTransactRepo.findAllRecordsBySender(bAccIdHere);
       const receiverClt = await finTransactRepo.findAllRecordsByReceiver(bAccIdHere);
+      const queryResult = senderClt.concat(receiverClt);
 
       return res.status(HttpStatusCode.OK).json({
         message: "Created a bank statement!",
         affectedResource,
         statusCode: HttpStatusCode.OK,
         serverData: {
-          ...senderClt,
-          ...receiverClt
+          ...queryResult
         }
       });
     }

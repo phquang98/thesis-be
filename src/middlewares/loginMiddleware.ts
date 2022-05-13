@@ -10,9 +10,11 @@ export const loginHdlr: TReqHdlrLogin = async (req, res, next) => {
   try {
     const suspect = await uAccRepo.findOneRecordByAccountName(accountName);
     if (suspect && suspect.accountPwd === accountPwd) {
-      return res
-        .status(HttpStatusCode.OK)
-        .json({ message: "Login successful! FIX THISSSSSSSS", affectedResource, statusCode: HttpStatusCode.OK }); // TODO: next() -> createSessCtr
+      return res.status(HttpStatusCode.OK).json({
+        message: "Login successful! FIX THISSSSSSSS",
+        affectedResource,
+        statusCode: HttpStatusCode.OK
+      }); // TODO: next() -> createSessCtr
     }
     return next(
       new SimpleError({ message: "Wrong credentials!", affectedResource, statusCode: HttpStatusCode.BAD_REQUEST })

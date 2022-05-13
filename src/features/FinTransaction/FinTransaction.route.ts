@@ -8,8 +8,8 @@ import {
 
 const finTransactionRouter = express.Router();
 
+finTransactionRouter.get("/statement", readBankStatementCtr); // this first or id === "statement"
 finTransactionRouter.get("/:finTransactIdHere", readOneFinTransactCtr);
-finTransactionRouter.get("/statement", readBankStatementCtr);
 // finTransactionRouter.get("/sender");
 // finTransactionRouter.get("/receiver");
 finTransactionRouter.post("/", createOneFinTransactCtr);
