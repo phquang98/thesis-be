@@ -1,31 +1,44 @@
 import { bAccRepo } from "~/features/BankAccount/BankAccount.repository";
+import { uInfoRepo } from "~/features/UserInfo/UserInfo.repository";
 import { TBAccRequestHandler } from "~/types/business";
 import { HttpStatusCode, SimpleError } from "~/utils";
 
 const affectedResource = "Bank Account";
 
-// if id used -> no (only 1) -> else yes
+// NOTE: can this be simplify
+// check id existed in UInfo -> check id existed in BAcc -> no (only 1) -> else yes
 export const createBAccCtr: TBAccRequestHandler = async (req, res, next) => {
   const { clientData } = req.body;
 
   try {
-    const suspect = await bAccRepo.findOneRecordByUserId(clientData.userId);
-    if (suspect) {
-      return next(
-        new SimpleError({
-          message: "An User can only have one Bank Account!",
-          affectedResource,
-          statusCode: HttpStatusCode.BAD_REQUEST
-        })
-      );
+    const { userId } = clientData;
+    const isQualified = await uInfoRepo.findOneRecordById(userId);
+    if (isQualified) {
+      const suspect = await bAccRepo.findOneRecordByUserId(clientData.userId);
+      if (suspect) {
+        return next(
+          new SimpleError({
+            message: "An User can only have one Bank Account!",
+            affectedResource,
+            statusCode: HttpStatusCode.BAD_REQUEST
+          })
+        );
+      }
+      const queryResult = await bAccRepo.createAndSaveOneRecord(clientData.userId);
+      return res.status(HttpStatusCode.CREATED).json({
+        message: "Bank Account created!",
+        affectedResource,
+        statusCode: HttpStatusCode.CREATED,
+        serverData: queryResult
+      });
     }
-    const queryResult = await bAccRepo.createAndSaveOneRecord(clientData.userId);
-    return res.status(HttpStatusCode.CREATED).json({
-      message: "Bank Account created!",
-      affectedResource,
-      statusCode: HttpStatusCode.CREATED,
-      serverData: queryResult
-    });
+    return next(
+      new SimpleError({
+        message: "Failed create: Provided ID does not existed in the DB!",
+        affectedResource,
+        statusCode: HttpStatusCode.BAD_REQUEST
+      })
+    );
   } catch (error) {
     return next(
       new SimpleError({

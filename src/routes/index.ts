@@ -1,8 +1,6 @@
 import express from "express";
 
-import { healthCheckHdlr } from "~/middlewares/healthCheck";
-import { loginHdlr } from "~/middlewares/loginMiddleware";
-import { registerHdlr } from "~/middlewares/registerMiddleware";
+import { healthCheckHdlr, loginHdlr, registerHdlr } from "~/middlewares";
 import { businessRouter } from "~/routes/business";
 
 const appRouter = express.Router();
