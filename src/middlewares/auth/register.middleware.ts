@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+import bcrypt from "bcrypt";
+
 import { uAccRepo } from "~/features/UserAccount/UserAccount.repository";
 import { uInfoRepo } from "~/features/UserInfo/UserInfo.repository";
 import { TReqHdlrRegister } from "~/types/system";
@@ -19,7 +22,10 @@ export const registerHdlr: TReqHdlrRegister = async (req, res, next) => {
         })
       );
     }
-    const [userInfoData, userAccData] = generateUser(clientData);
+    // NOTE: should this be wrapped in a different trycatch
+    const hashedPwd = await bcrypt.hash(clientData.accountPwd, 10);
+    const hashedClientData = { ...clientData, accountPwd: hashedPwd };
+    const [userInfoData, userAccData] = generateUser(hashedClientData);
     await uInfoRepo.createAndSaveOneRecord(userInfoData); // this runs 1st cause FK
     await uAccRepo.createAndSaveOneRecord(userAccData);
     return res.status(HttpStatusCode.CREATED).json({

@@ -1,3 +1,5 @@
+import bcrypt from "bcrypt";
+
 import { uAccRepo } from "~/features/UserAccount/UserAccount.repository";
 import { TReqHdlrLogin } from "~/types/system";
 import { HttpStatusCode, SimpleError } from "~/utils";
@@ -9,7 +11,7 @@ export const loginHdlr: TReqHdlrLogin = async (req, _res, next) => {
 
   try {
     const suspect = await uAccRepo.findOneRecordByAccountName(accountName);
-    if (suspect && suspect.accountPwd === accountPwd) {
+    if (suspect && (await bcrypt.compare(accountPwd, suspect.accountPwd))) {
       return next();
     }
     return next(
