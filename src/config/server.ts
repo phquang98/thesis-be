@@ -19,7 +19,7 @@ server.use(cors(appCORSOpts));
 server.use(session(appSessOpts));
 
 // --- Routing ---
-server.use(appRouter);
+server.use("/be", appRouter);
 server.use(rogueHdlr); // server.all ?
 
 // --- Error Handlers ---

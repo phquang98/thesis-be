@@ -8,7 +8,6 @@ import { businessRouter } from "~/routes/business";
 const appRouter = express.Router();
 
 appRouter.get("/healthcheck", healthCheckHdlr);
-
 appRouter.post("/register", registerHdlr);
 appRouter.post("/login", loginHdlr, createSess);
 appRouter.post("/:userIdHere/reload", reloadSess);

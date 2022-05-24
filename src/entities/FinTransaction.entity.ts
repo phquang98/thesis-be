@@ -1,6 +1,4 @@
-import { Entity, BaseEntity, Column, PrimaryColumn, CreateDateColumn, ManyToOne, JoinColumn } from "typeorm";
-
-import { BankAccount } from "~/entities";
+import { Entity, BaseEntity, Column, PrimaryColumn, CreateDateColumn } from "typeorm";
 
 @Entity("fin_transaction")
 export class FinTransaction extends BaseEntity {
